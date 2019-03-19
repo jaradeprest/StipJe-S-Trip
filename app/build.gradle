@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'StipJeTrip'
-            keyPassword 'chiel&jara1'
-            storeFile file('/Users/chielbleyenbergh/Documents/VDAB/Andriod/demo_keystore/StipJeTrip_Key')
-            storePassword 'chiel&jara1'
+            keyAlias 'android'
+            keyPassword 'chieljara'
+            storeFile file('../keystore.p12')
+            storePassword 'chieljara'
         }
     }
     compileSdkVersion 28
