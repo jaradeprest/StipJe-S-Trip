@@ -2,6 +2,7 @@ package chiel.jara.stipjestrip.model;
 
 import java.util.ArrayList;
 
+//ToDo Klassenaam aanpassen naar ComicDatasource!
 public class ComicDAO {
     private static final ComicDAO ourInstance = new ComicDAO();
 
