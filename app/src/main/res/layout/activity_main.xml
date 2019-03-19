@@ -41,12 +41,22 @@
         android:layout_marginLeft="64dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
+        android:layout_marginBottom="128dp"
         android:max="20"
         android:progress="2"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_walkingman"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/walking_man"
+        app:layout_constraintBottom_toTopOf="@+id/pb_loading"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
 </android.support.constraint.ConstraintLayout>
