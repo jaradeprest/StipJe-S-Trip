@@ -1,13 +1,22 @@
 package chiel.jara.stipjestrip.model;
 
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Comic {
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String name, author, year, afbeeldingsNaam;
     private float coordinateLONG, coordinateLAT;
 
     public Comic() {
     }
 
+    @Ignore
     public Comic(String name, String author, String year, String afbeeldingsNaam, float coordinateLONG, float coordinateLAT) {
         this.name = name;
         this.author = author;

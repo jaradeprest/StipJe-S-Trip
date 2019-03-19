@@ -18,5 +18,7 @@ public class ComicDAO {
         return comics;
     }
 
-    public void addComic(Comic comic){comics.add(comic);}
+    public void addComic(Comic comic){
+        comics.add(comic);
+    }
 }
