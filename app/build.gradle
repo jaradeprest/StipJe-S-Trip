@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'StipJeTrip'
+            keyPassword 'chiel&jara1'
+            storeFile file('/Users/chielbleyenbergh/Documents/VDAB/Andriod/demo_keystore/StipJeTrip_Key')
+            storePassword 'chiel&jara1'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "chiel.jara.stipjestrip"
@@ -15,11 +23,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
