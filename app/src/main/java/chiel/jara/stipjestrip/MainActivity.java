@@ -15,6 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ivGif = findViewById(R.id.iv_walkingman);
-        Glide.with(getApplicationContext()).load(R.drawable.walking_man).into(ivGif);
+        Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);  //imported glide dependencies in build.gradle
     }
 }
