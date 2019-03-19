@@ -4,14 +4,18 @@ import android.os.Handler;
 import android.os.Message;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import chiel.jara.stipjestrip.model.Comic;
+import chiel.jara.stipjestrip.model.ComicDAO;
 
 public class ComicHandler extends Handler {
 
-    private ComicHandler myComicHandler;
+    private ComicAdapter myComicAdapter;
 
-    public ComicHandler(ComicHandler myComicHandler) {
-        this.myComicHandler = myComicHandler;
+    public ComicHandler(ComicAdapter myComicAdapter) {
+        this.myComicAdapter = myComicAdapter;
     }
 
     @Override
@@ -24,7 +28,41 @@ public class ComicHandler extends Handler {
             JSONArray records = rootObject.getJSONArray("records");
             int aantalComics = records.length();
             int index = 0;
-            //NOG NIET KLAAR
+            while (index<aantalComics){
+                JSONObject currentRecord = records.getJSONObject(index);//=huidige rij
+                JSONObject fields = currentRecord.getJSONObject("fields");//=wat zit er in de rij?
+                String name;
+                if (fields.has("personnage_s")){
+                    name=fields.getString("personnage_s");
+                }else {name="No title";}
+
+                String author;
+                if (fields.has("auteur_s")){
+                    author=fields.getString("auteur_s");
+                }else {author="No author";}
+
+                String year;
+                if (fields.has("annee")){
+                    year=fields.getString("annee");
+                }else {year="No year";}
+
+                String imageName;
+                if (fields.has("filename")){
+                    imageName=fields.getString("filename");
+                }else {imageName="noimage.png";}
+
+                //ToDo COORDINATEN ERUIT HALEN? HOE? ALS ARRAY??? (voorlopig gewoon ingevuld als 0,0)
+                //ToDo HOE imagename gebruiken om effectief al afbeelding te laten zien?
+
+                Comic currentComic = new Comic(name, author, year, imageName, 0,0);
+                ComicDAO.getInstance().addComic(currentComic);
+                index++;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
         }
+
+        myComicAdapter.setItems(ComicDAO.getInstance().getComics());
+        myComicAdapter.notifyDataSetChanged();
     }
 }

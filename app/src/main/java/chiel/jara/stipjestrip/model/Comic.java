@@ -2,17 +2,17 @@ package chiel.jara.stipjestrip.model;
 
 public class Comic {
 
-    private String name, author, year, afbeeldingsNaam;
+    private String name, author, year, imageName;
     private float coordinateLONG, coordinateLAT;
 
     public Comic() {
     }
 
-    public Comic(String name, String author, String year, String afbeeldingsNaam, float coordinateLONG, float coordinateLAT) {
+    public Comic(String name, String author, String year, String imageName, float coordinateLONG, float coordinateLAT) {
         this.name = name;
         this.author = author;
         this.year = year;
-        this.afbeeldingsNaam = afbeeldingsNaam;
+        this.imageName = imageName;
         this.coordinateLONG = coordinateLONG;
         this.coordinateLAT = coordinateLAT;
     }
@@ -41,12 +41,12 @@ public class Comic {
         this.year = year;
     }
 
-    public String getAfbeeldingsNaam() {
-        return afbeeldingsNaam;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setAfbeeldingsNaam(String afbeeldingsNaam) {
-        this.afbeeldingsNaam = afbeeldingsNaam;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public float getCoordinateLONG() {
@@ -71,7 +71,7 @@ public class Comic {
                 "name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", year='" + year + '\'' +
-                ", afbeeldingsNaam='" + afbeeldingsNaam + '\'' +
+                ", imageName='" + imageName + '\'' +
                 ", coordinateLONG=" + coordinateLONG +
                 ", coordinateLAT=" + coordinateLAT +
                 '}';
