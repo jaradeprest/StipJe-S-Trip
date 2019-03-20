@@ -1,25 +1,19 @@
 package chiel.jara.stipjestrip.model;
 
-import java.util.ArrayList;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
 
-//ToDo Klassenaam aanpassen naar ComicDatasource!
-public class ComicDAO {
-    private static final ComicDAO ourInstance = new ComicDAO();
+import java.util.List;
 
-    public static ComicDAO getInstance() {
-        return ourInstance;
-    }
+@Dao
+public interface ComicDAO {
 
-    private ComicDAO() {
-    }
+    //Data toevoegen
+    @Insert
+    void addComic(Comic comic);
 
-    private ArrayList<Comic> comics = new ArrayList<>();
-
-    public ArrayList<Comic> getComics() {
-        return comics;
-    }
-
-    public void addComic(Comic comic){
-        comics.add(comic);
-    }
+    //Alle data opvragen
+    @Query("select * from Comic")
+    List<Comic> getAllComics();
 }

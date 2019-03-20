@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.io.IOException;
 
-import chiel.jara.stipjestrip.model.ComicDAO;
+import chiel.jara.stipjestrip.model.ComicDatasource;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
@@ -28,7 +28,7 @@ public class ListActivity extends AppCompatActivity {
         rvComics=findViewById(R.id.rv_comics);
 
         //recyclerview instellen:
-        ComicAdapter myComicAdapter = new ComicAdapter(ComicDAO.getInstance().getComics());
+        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatasource.getInstance().getComics());
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);

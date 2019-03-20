@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import chiel.jara.stipjestrip.model.Comic;
-import chiel.jara.stipjestrip.model.ComicDAO;
+import chiel.jara.stipjestrip.model.ComicDatasource;
 
 public class ComicHandler extends Handler {
 
@@ -55,14 +55,14 @@ public class ComicHandler extends Handler {
                 //ToDo HOE imagename gebruiken om effectief al afbeelding te laten zien?
 
                 Comic currentComic = new Comic(name, author, year, imageName, 0,0);
-                ComicDAO.getInstance().addComic(currentComic);
+                ComicDatasource.getInstance().addComic(currentComic);
                 index++;
             }
         }catch (JSONException e){
             e.printStackTrace();
         }
 
-        myComicAdapter.setItems(ComicDAO.getInstance().getComics());
+        myComicAdapter.setItems(ComicDatasource.getInstance().getComics());
         myComicAdapter.notifyDataSetChanged();
     }
 }
