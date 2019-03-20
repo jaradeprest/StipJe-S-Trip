@@ -3,6 +3,8 @@ package chiel.jara.stipjestrip.util;
 import android.os.Handler;
 import android.os.Message;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

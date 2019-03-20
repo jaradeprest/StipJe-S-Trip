@@ -26,6 +26,6 @@ public abstract class ComicDatabase extends RoomDatabase {
     }
 
     //Abstracte klasse
-    //Van hier uit kan je de mothodes aan spreken
-    public abstract ComicDatasource getMethodsComic();
+    //Van hier uit kan je de methodes aan spreken
+    public abstract ComicDAO getMethodsComic();
 }
