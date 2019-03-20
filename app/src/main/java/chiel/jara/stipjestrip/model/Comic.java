@@ -11,13 +11,13 @@ public class Comic {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String name, author, year, imageName;
-    private float coordinateLONG, coordinateLAT;
+    private double coordinateLONG, coordinateLAT;
 
     public Comic() {
     }
 
     @Ignore
-    public Comic(String name, String author, String year, String imageName, float coordinateLONG, float coordinateLAT) {
+    public Comic(String name, String author, String year, String imageName, double coordinateLONG, double coordinateLAT) {
         this.name = name;
         this.author = author;
         this.year = year;
@@ -66,19 +66,19 @@ public class Comic {
         this.imageName = imageName;
     }
 
-    public float getCoordinateLONG() {
+    public double getCoordinateLONG() {
         return coordinateLONG;
     }
 
-    public void setCoordinateLONG(float coordinateLONG) {
+    public void setCoordinateLONG(double coordinateLONG) {
         this.coordinateLONG = coordinateLONG;
     }
 
-    public float getCoordinateLAT() {
+    public double getCoordinateLAT() {
         return coordinateLAT;
     }
 
-    public void setCoordinateLAT(float coordinateLAT) {
+    public void setCoordinateLAT(double coordinateLAT) {
         this.coordinateLAT = coordinateLAT;
     }
 

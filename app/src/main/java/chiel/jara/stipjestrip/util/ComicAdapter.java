@@ -19,13 +19,14 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     }
 
     class ComicRowViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvName, tvAuthor, tvYear;
+        private TextView tvName, tvAuthor, tvYear, tvCoordinates;
 
         public ComicRowViewHolder (@NonNull View itemView){
             super(itemView);
             tvName=itemView.findViewById(R.id.tv_row_name);
             tvAuthor=itemView.findViewById(R.id.tv_row_author);
             tvYear=itemView.findViewById(R.id.tv_row_year);
+            tvCoordinates=itemView.findViewById(R.id.tv_coordinates);
             //IMAGE ???
         }
     }
@@ -46,9 +47,12 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     public void onBindViewHolder(@NonNull ComicRowViewHolder comicRowViewHolder, int i) {
         Comic currentComic = comics.get(i);
         //instellen op viewholder
+        String coordinates = currentComic.getCoordinateLONG()+", "+currentComic.getCoordinateLAT();
+
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
         comicRowViewHolder.tvYear.setText(currentComic.getYear());
+        comicRowViewHolder.tvCoordinates.setText(coordinates);
     }
 
     @Override

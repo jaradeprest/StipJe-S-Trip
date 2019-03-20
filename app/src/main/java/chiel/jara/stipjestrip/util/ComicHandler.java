@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatasource;
 
@@ -53,10 +55,24 @@ public class ComicHandler extends Handler {
                     imageName=fields.getString("filename");
                 }else {imageName="noimage.png";}
 
-                //ToDo COORDINATEN ERUIT HALEN? HOE? ALS ARRAY??? (voorlopig gewoon ingevuld als 0,0)
+                String coordinateLAT;
+                if (fields.has("coordonnees_geographiques")){
+                    JSONArray coordinates = new JSONArray();
+                    coordinates=fields.getJSONArray("coordonnees_geographiques");
+                    coordinateLAT=coordinates.get(1).toString();
+                }else {coordinateLAT="not found";}
+                String coordinateLONG;
+                if (fields.has("coordonnees_geographiques")){
+                    JSONArray coordinates = new JSONArray();
+                    coordinates=fields.getJSONArray("coordonnees_geographiques");
+                    coordinateLONG=coordinates.get(0).toString();
+                }else {coordinateLONG="not found";}
+                double currentLONG = Double.valueOf(coordinateLONG);
+                double currentLAT = Double.valueOf(coordinateLAT);
+
                 //ToDo HOE imagename gebruiken om effectief al afbeelding te laten zien?
 
-                Comic currentComic = new Comic(name, author, year, imageName, 0,0);
+                Comic currentComic = new Comic(name, author, year, imageName, currentLONG,currentLAT);
                 ComicDatasource.getInstance().addComic(currentComic);
                 index++;
             }
