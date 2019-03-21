@@ -4,12 +4,15 @@ package chiel.jara.stipjestrip.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity
 public class Comic {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
+    private String imgID;
     private String name, author, year, imageName;
     private double coordinateLONG, coordinateLAT;
 
@@ -17,7 +20,8 @@ public class Comic {
     }
 
     @Ignore
-    public Comic(String name, String author, String year, String imageName, double coordinateLONG, double coordinateLAT) {
+    public Comic(String name, String author, String year, String imageName, String imgID, double coordinateLONG, double coordinateLAT) {
+        this.imgID = imgID;
         this.name = name;
         this.author = author;
         this.year = year;
@@ -26,12 +30,21 @@ public class Comic {
         this.coordinateLAT = coordinateLAT;
     }
 
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getImgID() {
+        return imgID;
+    }
+
+    public void setImgID(String imgID) {
+        this.imgID = imgID;
     }
 
     public String getName() {

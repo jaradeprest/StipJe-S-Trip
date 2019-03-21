@@ -11,7 +11,7 @@ public abstract class ComicDatabase extends RoomDatabase {
 
     private static ComicDatabase instance;
 
-    private static ComicDatabase getInstance(Context context) {
+    public static ComicDatabase getInstance(Context context) {
         //Wanneer de instantie nog niet bestaat wordt er een nieuwe database gecreëerd (File)
         if (instance == null) {
             instance = createDatabase(context);

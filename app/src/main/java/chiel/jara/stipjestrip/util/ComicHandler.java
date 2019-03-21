@@ -1,25 +1,30 @@
 package chiel.jara.stipjestrip.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-
-import com.google.android.gms.maps.model.LatLng;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import chiel.jara.stipjestrip.model.Comic;
+import chiel.jara.stipjestrip.model.ComicDAO;
+import chiel.jara.stipjestrip.model.ComicDatabase;
 import chiel.jara.stipjestrip.model.ComicDatasource;
 
 public class ComicHandler extends Handler {
 
+    private Context context;
     private ComicAdapter myComicAdapter;
 
-    public ComicHandler(ComicAdapter myComicAdapter) {
+    public ComicHandler(ComicAdapter myComicAdapter, Context context) {
         this.myComicAdapter = myComicAdapter;
+        this.context = context;
     }
 
     @Override
@@ -50,10 +55,16 @@ public class ComicHandler extends Handler {
                     year=fields.getString("annee");
                 }else {year="No year";}
 
+                JSONObject photo = fields.getJSONObject("photo");
                 String imageName;
-                if (fields.has("filename")){
-                    imageName=fields.getString("filename");
+                if (photo.has("filename")){
+                    imageName=photo.getString("filename");
                 }else {imageName="noimage.png";}
+
+                String imageID;
+                if (photo.has("id")){
+                    imageID=photo.getString("id");
+                }else{imageID="noID";}
 
                 String coordinateLAT;
                 if (fields.has("coordonnees_geographiques")){
@@ -72,15 +83,28 @@ public class ComicHandler extends Handler {
 
                 //ToDo HOE imagename gebruiken om effectief al afbeelding te laten zien?
 
-                Comic currentComic = new Comic(name, author, year, imageName, currentLONG,currentLAT);
-                ComicDatasource.getInstance().addComic(currentComic);
+                Comic currentComic = new Comic(name, author, year, imageName, imageID, currentLONG,currentLAT);
+                boolean comicExist = false;
+
+
+                for (Comic comic : ComicDatabase.getInstance(context).getMethodsComic().getAllComics()) {
+                    if (comic.getImgID().equals(currentComic.getImgID())) {
+                        comicExist = true;
+                        break;
+                    }
+                }
+                if (!comicExist) {
+                    ComicDatabase.getInstance(context).getMethodsComic().addComic(currentComic);
+                }
+
+                //ComicDatasource.getInstance().addComic(currentComic);
                 index++;
             }
         }catch (JSONException e){
             e.printStackTrace();
         }
 
-        myComicAdapter.setItems(ComicDatasource.getInstance().getComics());
+        //myComicAdapter.setItems(ComicDatasource.getInstance().getComics());
         myComicAdapter.notifyDataSetChanged();
     }
 }

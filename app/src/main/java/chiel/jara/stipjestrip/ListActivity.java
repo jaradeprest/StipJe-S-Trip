@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.io.IOException;
 
+import chiel.jara.stipjestrip.model.ComicDatabase;
 import chiel.jara.stipjestrip.model.ComicDatasource;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 import chiel.jara.stipjestrip.util.ComicHandler;
@@ -28,13 +29,15 @@ public class ListActivity extends AppCompatActivity {
         rvComics=findViewById(R.id.rv_comics);
 
         //recyclerview instellen:
-        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatasource.getInstance().getComics());
+        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);
 
-        myComicHandler=new ComicHandler(myComicAdapter);
+        myComicHandler=new ComicHandler(myComicAdapter, getApplicationContext());
         downloadData();
+
+
     }
 
     private void downloadData(){
@@ -45,6 +48,7 @@ public class ListActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder().url("https://bruxellesdata.opendatasoft.com/api/records/1.0/search/?dataset=comic-book-route&rows=50").get().build();
                     Response response = client.newCall(request).execute();
+                    //Response roImg = client.newCall(rImg).execute();
 
                     if (response.body() != null){
                         String responsebodyText = response.body().string();

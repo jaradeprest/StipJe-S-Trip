@@ -8,16 +8,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.Comic;
 
 public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowViewHolder> {
 
+    /*
     public void setItems(ArrayList<Comic> comics){
         comics.addAll(comics);
     }
-
+    */
     class ComicRowViewHolder extends RecyclerView.ViewHolder{
         private TextView tvName, tvAuthor, tvYear, tvCoordinates;
 
@@ -31,9 +33,11 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         }
     }
 
-    private ArrayList<Comic> comics;
+    private List<Comic> comics;
 
-    public ComicAdapter(ArrayList<Comic> comics){this.comics = comics;}
+    public ComicAdapter(List<Comic> comics){
+        this.comics = comics;
+    }
 
     @NonNull
     @Override
