@@ -15,6 +15,7 @@ public class Comic {
     private String imgID;
     private String name, author, year, imageName;
     private double coordinateLONG, coordinateLAT;
+    private String URLimg;
 
     public Comic() {
     }
@@ -28,6 +29,7 @@ public class Comic {
         this.imageName = imageName;
         this.coordinateLONG = coordinateLONG;
         this.coordinateLAT = coordinateLAT;
+        this.URLimg = URLimg;
     }
 
 
@@ -95,15 +97,25 @@ public class Comic {
         this.coordinateLAT = coordinateLAT;
     }
 
+    public String getURLimg() {
+        return URLimg;
+    }
+
+    public void setURLimg(String URLimg) {
+        this.URLimg = URLimg;
+    }
+
     @Override
     public String toString() {
         return "Comic{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", year='" + year + '\'' +
                 ", imageName='" + imageName + '\'' +
                 ", coordinateLONG=" + coordinateLONG +
                 ", coordinateLAT=" + coordinateLAT +
+                ", URLimg='" + URLimg + '\'' +
                 '}';
     }
 }

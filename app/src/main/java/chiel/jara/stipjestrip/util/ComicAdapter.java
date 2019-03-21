@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,8 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     */
     class ComicRowViewHolder extends RecyclerView.ViewHolder{
         private TextView tvName, tvAuthor, tvYear, tvCoordinates;
+        private ImageView ivComic;
+
 
         public ComicRowViewHolder (@NonNull View itemView){
             super(itemView);
@@ -30,6 +35,7 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             tvYear=itemView.findViewById(R.id.tv_row_year);
             tvCoordinates=itemView.findViewById(R.id.tv_coordinates);
             //IMAGE ???
+            ivComic=itemView.findViewById(R.id.iv_row_image);
         }
     }
 
@@ -57,6 +63,8 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
         comicRowViewHolder.tvYear.setText(currentComic.getYear());
         comicRowViewHolder.tvCoordinates.setText(coordinates);
+        Picasso.get().load(currentComic.getURLimg()).resize(200,200).into(comicRowViewHolder.ivComic);
+        //TODO die afbeeldingen nog lokaal bijhouden in folder op telefoon. (zie notities)
     }
 
     @Override

@@ -57,4 +57,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
+
+    //Picasso voor importeren van afbeeldingen via URL
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

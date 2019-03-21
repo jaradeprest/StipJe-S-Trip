@@ -83,7 +83,13 @@ public class ComicHandler extends Handler {
 
                 //ToDo HOE imagename gebruiken om effectief al afbeelding te laten zien?
 
+
                 Comic currentComic = new Comic(name, author, year, imageName, imageID, currentLONG,currentLAT);
+
+                //AFBEELDING PROBEREN INLADEN
+                String URL = "https://bruxellesdata.opendatasoft.com/explore/dataset/comic-book-route/files/"+currentComic.getImgID()+"/300/";
+                currentComic.setURLimg(URL);
+
                 boolean comicExist = false;
 
 
