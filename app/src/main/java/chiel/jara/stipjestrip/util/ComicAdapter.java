@@ -34,7 +34,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             tvAuthor=itemView.findViewById(R.id.tv_row_author);
             tvYear=itemView.findViewById(R.id.tv_row_year);
             tvCoordinates=itemView.findViewById(R.id.tv_coordinates);
-            //IMAGE ???
             ivComic=itemView.findViewById(R.id.iv_row_image);
         }
     }
@@ -42,6 +41,14 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     private List<Comic> comics;
 
     public ComicAdapter(List<Comic> comics){
+        this.comics = comics;
+    }
+
+    public List<Comic> getComics() {
+        return comics;
+    }
+
+    public void setComics(List<Comic> comics) {
         this.comics = comics;
     }
 

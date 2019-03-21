@@ -60,7 +60,6 @@ public class ListActivity extends AppCompatActivity {
                         message.obj = responsebodyText;
                         //STRING DOORSTUREN NAAR HANDLER
                         myComicHandler.sendMessage(message);
-
                     }
                 }catch (IOException e){
                     e.printStackTrace();

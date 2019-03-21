@@ -111,6 +111,7 @@ public class ComicHandler extends Handler {
         }
 
         //myComicAdapter.setItems(ComicDatasource.getInstance().getComics());
+        myComicAdapter.setComics(ComicDatabase.getInstance(context).getMethodsComic().getAllComics());
         myComicAdapter.notifyDataSetChanged();
     }
 }
