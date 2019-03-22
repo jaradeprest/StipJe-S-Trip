@@ -20,12 +20,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import chiel.jara.stipjestrip.model.Comic;
+import chiel.jara.stipjestrip.model.ComicDatabase;
+import chiel.jara.stipjestrip.util.ComicHandler;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -43,15 +46,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        //map.setOnMarkerClickListener(this);
+        map.setOnMarkerClickListener(this);
         setUpCamera();
+        addMarkers();
         startLocationUpdates();
     }
 
@@ -92,10 +91,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    //TODO INVULLEN MET GEGEVENS VAN COMICS
-    /*private void addMarkers(){
-        map.addMarker(new MarkerOptions().position(comic.getCoordinates().title(comic.getTitle).snippet(comic.getAuthor).icon(HOE WILLEN WE DAT ONS ICOON ERUIT ZIET?))
-    }*/
+    private void addMarkers() {
+        for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
+            LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
+            float kleur = 195;
+            map.addMarker(new MarkerOptions().title(comic.getName()).snippet(comic.getAuthor()).position(latLng).icon(BitmapDescriptorFactory.defaultMarker(kleur)));
+        }
+    }
 
     @SuppressLint("MissingPermission")
     @Override
@@ -108,10 +110,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    //TODO CLICKLISTENER VOOR MARKERS (VOOR LATER):
-    /*@Override
+    @Override
     public boolean onMarkerClick(Marker marker){
-        Toast.makeText(getApplicationContext().marker.getTitle(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
         return false;
-    }*/
+    }
 }

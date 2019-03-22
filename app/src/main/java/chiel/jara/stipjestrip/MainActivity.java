@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.util.Map;
 
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener nextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
