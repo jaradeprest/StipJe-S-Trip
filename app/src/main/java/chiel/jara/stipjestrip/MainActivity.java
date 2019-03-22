@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     //OM TE TESTEN:
     private Button btnNext;
+    private Button btnMaps;
 
 
     //OM TE TESTEN:
@@ -30,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    };
+    private View.OnClickListener mapsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -48,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         //OM TE TESTEN:
         btnNext=findViewById(R.id.btn_next);
         btnNext.setOnClickListener(nextListener);
+        btnMaps=findViewById(R.id.btn_maps);
+        btnMaps.setOnClickListener(mapsListener);
 
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
     }

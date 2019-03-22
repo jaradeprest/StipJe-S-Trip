@@ -1,22 +1,17 @@
 package chiel.jara.stipjestrip;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
+import android.view.Menu;
 
-
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
-import chiel.jara.stipjestrip.model.ComicDatasource;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
@@ -27,6 +22,7 @@ public class ListActivity extends AppCompatActivity {
 
     private RecyclerView rvComics;
     private ComicHandler myComicHandler;
+    private ComicAdapter myComicAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,13 +31,21 @@ public class ListActivity extends AppCompatActivity {
         rvComics=findViewById(R.id.rv_comics);
 
         //recyclerview instellen:
-        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
+        myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);
 
         myComicHandler=new ComicHandler(myComicAdapter, getApplicationContext());
         downloadData();
+        myComicAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void downloadData(){
@@ -67,6 +71,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
         backThread.start();
+        myComicAdapter.notifyDataSetChanged();
         //TODO als data is binnengehaald, dan wordt launchscreen gesloten en wordt map_activity getoond
     }
 }

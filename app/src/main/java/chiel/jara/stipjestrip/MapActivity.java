@@ -3,6 +3,7 @@ package chiel.jara.stipjestrip;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -13,7 +14,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,9 +27,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import chiel.jara.stipjestrip.model.Comic;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -40,6 +41,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
         supportMapFragment.getMapAsync(this);
         getSupportFragmentManager().beginTransaction().add(R.id.map_fragment_layout, supportMapFragment).commit();
+    }
+
+
+    //Aanmaken Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
+        return super.onCreateOptionsMenu(menu);
+    }
+    //Iets selecteren van uit het menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
