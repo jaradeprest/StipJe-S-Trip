@@ -1,5 +1,7 @@
 package chiel.jara.stipjestrip.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import chiel.jara.stipjestrip.R;
@@ -58,13 +61,17 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     public void onBindViewHolder(@NonNull ComicRowViewHolder comicRowViewHolder, int i) {
         Comic currentComic = comics.get(i);
         //instellen op viewholder
-        String coordinates = currentComic.getCoordinateLAT()+", "+currentComic.getCoordinateLONG();
-
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
         comicRowViewHolder.tvYear.setText(currentComic.getYear());
-        Picasso.get().load(currentComic.getURLimg()).resize(1000,1000).into(comicRowViewHolder.ivComic);
-        //TODO die afbeeldingen nog lokaal bijhouden in folder op telefoon. (zie notities)
+        //Picasso.get().load(currentComic.getURLimg()).resize(1000,1000).into(comicRowViewHolder.ivComic);
+        try {
+            FileInputStream fis = comicRowViewHolder.itemView.getContext().openFileInput(currentComic.getImgID());
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+            comicRowViewHolder.ivComic.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

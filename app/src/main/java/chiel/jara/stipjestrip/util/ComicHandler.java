@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
+import java.util.concurrent.ExecutionException;
 
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
@@ -39,10 +40,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class ComicHandler extends Handler {
 
     private Context context;
-    private ComicAdapter myComicAdapter;
 
-    public ComicHandler(ComicAdapter myComicAdapter, Context context) {
-        this.myComicAdapter = myComicAdapter;
+    public ComicHandler( Context context) {
         this.context = context;
     }
 
@@ -95,11 +94,15 @@ public class ComicHandler extends Handler {
                 double currentLONG = Double.valueOf(coordinateLONG);
                 double currentLAT = Double.valueOf(coordinateLAT);
 
-                Comic currentComic = new Comic(name, author, year, imageName, imageID, currentLONG,currentLAT);
+                Comic currentComic = new Comic(name, author, year, imageName, imageID, currentLONG, currentLAT);
 
-                //AFBEELDING INLADEN
+                //AFBEELDING URL
                 String URL = "https://bruxellesdata.opendatasoft.com/explore/dataset/comic-book-route/files/"+currentComic.getImgID()+"/300/";
                 currentComic.setURLimg(URL);
+                //downloadTASK voor afbeelding
+                DownloadImageTask task = new DownloadImageTask(currentComic.getImgID(), context);
+                task.execute(currentComic.getURLimg());
+                currentComic.setImgID(task.get());
 
                 //TODO AFBEELDING OPSLAAN
                 /*Intent intent = new Intent();
@@ -125,9 +128,42 @@ public class ComicHandler extends Handler {
             }
         }catch (JSONException e){
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
-        myComicAdapter.setComics(ComicDatabase.getInstance(context).getMethodsComic().getAllComics());
-        myComicAdapter.notifyDataSetChanged();
+    }
+
+    //afb downloaden
+    private static class DownloadImageTask extends AsyncTask<String, Void, String>{
+
+        private String name;
+        private WeakReference<Context> contextReference;
+
+        DownloadImageTask(String name, Context context) {
+            this.name = name;
+            contextReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                InputStream inputStream = new URL(strings[0]).openStream();    // Download Image from URL
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
+                inputStream.close();
+
+                FileOutputStream foStream = contextReference.get().openFileOutput(name+".jpg", Context.MODE_PRIVATE);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, foStream);
+                foStream.close();
+
+                return name+".jpg";
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
