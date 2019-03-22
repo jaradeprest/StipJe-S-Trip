@@ -4,7 +4,10 @@ package chiel.jara.stipjestrip.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.media.Image;
 import android.support.annotation.NonNull;
+
+import java.net.URL;
 
 @Entity
 public class Comic {
@@ -29,7 +32,6 @@ public class Comic {
         this.imageName = imageName;
         this.coordinateLONG = coordinateLONG;
         this.coordinateLAT = coordinateLAT;
-        this.URLimg = URLimg;
     }
 
 
@@ -109,6 +111,7 @@ public class Comic {
     public String toString() {
         return "Comic{" +
                 "id=" + id +
+                ", imgID='" + imgID + '\'' +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", year='" + year + '\'' +
