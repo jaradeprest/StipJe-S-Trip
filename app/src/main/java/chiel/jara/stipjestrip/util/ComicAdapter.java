@@ -19,7 +19,7 @@ import chiel.jara.stipjestrip.model.Comic;
 public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowViewHolder> {
 
     class ComicRowViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvName, tvAuthor, tvYear, tvCoordinates;
+        private TextView tvName, tvAuthor, tvYear;
         private ImageView ivComic;
 
 
@@ -28,7 +28,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             tvName=itemView.findViewById(R.id.tv_row_name);
             tvAuthor=itemView.findViewById(R.id.tv_row_author);
             tvYear=itemView.findViewById(R.id.tv_row_year);
-            tvCoordinates=itemView.findViewById(R.id.tv_coordinates);
             ivComic=itemView.findViewById(R.id.iv_row_image);
         }
     }
@@ -64,8 +63,7 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
         comicRowViewHolder.tvYear.setText(currentComic.getYear());
-        comicRowViewHolder.tvCoordinates.setText(coordinates);
-        Picasso.get().load(currentComic.getURLimg()).resize(200,200).into(comicRowViewHolder.ivComic);
+        Picasso.get().load(currentComic.getURLimg()).resize(1000,1000).into(comicRowViewHolder.ivComic);
         //TODO die afbeeldingen nog lokaal bijhouden in folder op telefoon. (zie notities)
     }
 

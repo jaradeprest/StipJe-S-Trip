@@ -1,22 +1,16 @@
 package chiel.jara.stipjestrip;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
 
-
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
-import chiel.jara.stipjestrip.model.ComicDatasource;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
