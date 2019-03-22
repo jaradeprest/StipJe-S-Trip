@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -41,14 +39,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         this.comics = comics;
     }
 
-    public List<Comic> getComics() {
-        return comics;
-    }
-
-    public void setComics(List<Comic> comics) {
-        this.comics = comics;
-    }
-
     @NonNull
     @Override
     public ComicRowViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -64,7 +54,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
         comicRowViewHolder.tvYear.setText(currentComic.getYear());
-        //Picasso.get().load(currentComic.getURLimg()).resize(1000,1000).into(comicRowViewHolder.ivComic);
         try {
             FileInputStream fis = comicRowViewHolder.itemView.getContext().openFileInput(currentComic.getImgID());
             Bitmap bitmap = BitmapFactory.decodeStream(fis);

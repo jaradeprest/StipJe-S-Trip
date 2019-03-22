@@ -104,15 +104,6 @@ public class ComicHandler extends Handler {
                 task.execute(currentComic.getURLimg());
                 currentComic.setImgID(task.get());
 
-                //TODO AFBEELDING OPSLAAN
-                /*Intent intent = new Intent();
-                File photoFile;
-                File storage = context.getFilesDir();
-                photoFile = new File(storage+"/"+currentComic.getImageName()+"jpg");
-                Uri fotoURI = FileProvider.getUriForFile(context, "chiel.jara.stipjestrip.fileprovider", photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fotoURI);*/
-
-
                 boolean comicExist = false;
                 for (Comic comic : ComicDatabase.getInstance(context).getMethodsComic().getAllComics()) {
                     if (comic.getImgID().equals(currentComic.getImgID())) {

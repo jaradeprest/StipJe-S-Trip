@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
-import java.util.Map;
 
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder().url("https://bruxellesdata.opendatasoft.com/api/records/1.0/search/?dataset=comic-book-route&rows=50").get().build();
                     Response response = client.newCall(request).execute();
-                    //Response roImg = client.newCall(rImg).execute();
 
                     if (response.body() != null){
                         String responsebodyText = response.body().string();

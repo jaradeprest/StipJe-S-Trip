@@ -3,7 +3,6 @@ package chiel.jara.stipjestrip;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
-import chiel.jara.stipjestrip.util.ComicHandler;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
