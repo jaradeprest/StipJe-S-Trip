@@ -113,6 +113,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker){
         Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
+        //TODO afbeelding in toast
         return false;
     }
 }
