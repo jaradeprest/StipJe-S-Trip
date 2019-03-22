@@ -16,7 +16,7 @@ public abstract class ComicDatabase extends RoomDatabase {
         if (instance == null) {
             instance = createDatabase(context);
         }
-        //anders wordt het opgeslagen bij het bestaande database
+        //anders wordt het opgeslagen bij de bestaande database
         return instance;
     }
 

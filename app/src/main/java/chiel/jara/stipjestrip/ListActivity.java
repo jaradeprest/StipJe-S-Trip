@@ -1,5 +1,6 @@
 package chiel.jara.stipjestrip;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -9,9 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 
+import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
+import chiel.jara.stipjestrip.model.ComicDatasource;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 import chiel.jara.stipjestrip.util.ComicHandler;
 import okhttp3.OkHttpClient;
@@ -31,7 +36,7 @@ public class ListActivity extends AppCompatActivity {
         rvComics=findViewById(R.id.rv_comics);
 
         //recyclerview instellen:
-        myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
+        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);
