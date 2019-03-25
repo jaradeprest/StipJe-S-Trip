@@ -18,6 +18,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView ivGif;

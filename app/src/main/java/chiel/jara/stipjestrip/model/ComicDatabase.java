@@ -5,6 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 
 @Database(entities = {Comic.class}, version = 1, exportSchema = false)
 public abstract class ComicDatabase extends RoomDatabase {

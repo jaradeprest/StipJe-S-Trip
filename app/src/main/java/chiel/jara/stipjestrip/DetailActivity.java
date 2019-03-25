@@ -18,6 +18,10 @@ import java.util.Locale;
 
 import chiel.jara.stipjestrip.model.Comic;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 public class DetailActivity extends AppCompatActivity {
 
     private TextView tvTitle;

@@ -3,6 +3,7 @@ package chiel.jara.stipjestrip;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +22,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,7 +40,11 @@ import java.io.FileNotFoundException;
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private final int REQUEST_LOCATION = 1; //constante variabele voor bij permissions
     private GoogleMap map;
@@ -75,6 +79,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.setOnMarkerClickListener(this);
         setUpCamera();
         addMarkers();
+        map.setOnInfoWindowClickListener(this);
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -141,7 +146,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
             float kleur = 195;
-            map.addMarker(new MarkerOptions().title(comic.getName() +" - "+ comic.getAuthor()).snippet(comic.getImgID()).position(latLng).icon(BitmapDescriptorFactory.defaultMarker(kleur)));
+            Marker newMarker = map.addMarker(
+                    new MarkerOptions()
+                            .title(comic.getName() +" - "+ comic.getAuthor())
+                            .snippet(comic.getImgID())
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.defaultMarker(kleur))
+            );
+            newMarker.setTag(comic);
         }
     }
 
@@ -158,7 +170,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker){
-        Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
         return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
+        detailIntent.putExtra("comic", (Comic)marker.getTag());
+        startActivity(detailIntent);
     }
 }

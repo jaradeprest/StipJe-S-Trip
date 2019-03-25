@@ -21,6 +21,10 @@ import java.util.concurrent.ExecutionException;
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 public class ComicHandler extends Handler {
 
     private Context context;

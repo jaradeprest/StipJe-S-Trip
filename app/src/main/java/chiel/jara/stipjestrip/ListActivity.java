@@ -10,6 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 public class ListActivity extends AppCompatActivity {
 
     private RecyclerView rvComics;

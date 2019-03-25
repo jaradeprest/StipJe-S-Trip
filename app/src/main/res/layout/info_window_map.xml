@@ -25,6 +25,7 @@
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="TextView"
+        android:textColor="@color/colorBackground"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_info_image"
         app:layout_constraintEnd_toEndOf="@+id/iv_info_image"
