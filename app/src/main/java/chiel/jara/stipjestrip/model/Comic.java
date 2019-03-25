@@ -7,10 +7,11 @@ import android.arch.persistence.room.PrimaryKey;
 import android.media.Image;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.net.URL;
 
 @Entity
-public class Comic {
+public class Comic implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

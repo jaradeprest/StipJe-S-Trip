@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_detail_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorAccentSeeThrough"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
+        app:layout_constraintTop_toTopOf="@+id/iv_detail_image"
+        tools:text="testtitel" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorAccentSeeThrough"
+        android:gravity="center"
+        android:textColor="@color/colorBackground"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="testauteur" />
+
+    <TextView
+        android:id="@+id/tv_year"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorAccentSeeThrough"
+        android:gravity="center"
+        android:textColor="@color/colorBackground"
+        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
+        app:layout_constraintTop_toBottomOf="@+id/tv_author"
+        tools:text="testjaar" />
+
+    <TextView
+        android:id="@+id/tv_adres"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorAccentSeeThrough"
+        android:gravity="center"
+        android:textColor="@color/colorBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_detail_image"
+        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
+        tools:text="testadres" />
+</android.support.constraint.ConstraintLayout>
