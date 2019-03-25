@@ -164,27 +164,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker){
         Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
-
-        //AFBEELDING VERSCHIJNT ENKELE SECONDEN EN VERDWIJNT DAN WEER
-        /*LinearLayout layout = new LinearLayout(this);
-        ImageView view = new ImageView(getApplicationContext());
-        try {
-            FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
-            Bitmap bitmap = BitmapFactory.decodeStream(fis);
-            view.setImageBitmap(bitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        TextView textview = new TextView(getApplicationContext());
-        textview.setText(marker.getTitle());
-        layout.addView(view);
-        layout.addView(textview);
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
-        toast.show();*/
-
-        //TODO afbeelding in toast
         return false;
     }
 }
