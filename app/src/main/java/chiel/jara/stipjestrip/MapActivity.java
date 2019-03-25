@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,9 +15,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +37,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 
@@ -36,6 +47,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private final int REQUEST_LOCATION = 1; //constante variabele voor bij permissions
     private GoogleMap map;
+    private LayoutInflater inflater;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,11 +75,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         map = googleMap;
         map.setOnMarkerClickListener(this);
         setUpCamera();
         addMarkers();
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
+                TextView textView = myContentView.findViewById(R.id.tv_info_title);
+                textView.setText(marker.getTitle());
+                ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
+                try {
+                    FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
+                    Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                    imageView.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return myContentView;
+            }
+        });
         startLocationUpdates();
     }
 
@@ -91,9 +126,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location myLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
             if (myLocation != null){
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 13));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 15));
 
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(myLocation.getLatitude(), myLocation.getLongitude())).zoom(17).tilt(40).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(myLocation.getLatitude(), myLocation.getLongitude())).zoom(15).tilt(40).build();
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
                 map.animateCamera(cameraUpdate);
             }
@@ -111,7 +146,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
             float kleur = 195;
-            map.addMarker(new MarkerOptions().title(comic.getName()).snippet(comic.getAuthor()).position(latLng).icon(BitmapDescriptorFactory.defaultMarker(kleur)));
+            map.addMarker(new MarkerOptions().title(comic.getName() +" - "+ comic.getAuthor()).snippet(comic.getImgID()).position(latLng).icon(BitmapDescriptorFactory.defaultMarker(kleur)));
         }
     }
 
@@ -129,6 +164,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker){
         Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
+
+        //AFBEELDING VERSCHIJNT ENKELE SECONDEN EN VERDWIJNT DAN WEER
+        /*LinearLayout layout = new LinearLayout(this);
+        ImageView view = new ImageView(getApplicationContext());
+        try {
+            FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+            view.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView textview = new TextView(getApplicationContext());
+        textview.setText(marker.getTitle());
+        layout.addView(view);
+        layout.addView(textview);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();*/
+
         //TODO afbeelding in toast
         return false;
     }
