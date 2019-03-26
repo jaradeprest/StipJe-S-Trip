@@ -112,13 +112,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case R.id.sw_café:
                 break;
             case R.id.btn_strips:
-                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                Intent intentC = new Intent(getApplicationContext(), ListActivity.class);
+                intentC.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentC);
                 // close drawer when item is tapped
                 drawerLayout.closeDrawers();
                 break;
             case R.id.btn_café:
+                Intent intentB = new Intent(getApplicationContext(), BarListActivity.class);
+                intentB.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentB);
                 drawerLayout.closeDrawers();
                 break;
         }
