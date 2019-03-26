@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,11 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created By Chiel&Jara 03/2019
- */
-
-public class MainActivity extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity {
 
     private ImageView ivGif;
     private ProgressBar pbLoading;
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener nextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), BarListActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -56,18 +53,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_launch);
         ivGif = findViewById(R.id.iv_walkingman);
         pbLoading = findViewById(R.id.pb_loading);
 
-        //OM TE TESTEN:
-        btnNext=findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(nextListener);
-        btnMaps=findViewById(R.id.btn_maps);
-        btnMaps.setOnClickListener(mapsListener);
-
-        myComicHandler = new ComicHandler( getApplicationContext());
-        myBarHandler = new BarHandler(getApplicationContext());
+        myComicHandler = new ComicHandler( getApplicationContext(), pbLoading);
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
         downloadData();
     }
@@ -104,7 +95,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         backThread.start();
+
         //TODO als data is binnengehaald, dan wordt launchscreen gesloten en wordt map_activity getoond
+        Log.i("test", "downloadData: " + pbLoading.getProgress());
+        if (pbLoading.getProgress() == pbLoading.getMax()) {
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
     }
 
 }
