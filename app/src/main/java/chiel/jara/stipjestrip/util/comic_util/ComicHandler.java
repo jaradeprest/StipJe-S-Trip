@@ -1,4 +1,4 @@
-package chiel.jara.stipjestrip.util;
+package chiel.jara.stipjestrip.util.comic_util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,8 +18,8 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-import chiel.jara.stipjestrip.model.Comic;
-import chiel.jara.stipjestrip.model.ComicDatabase;
+import chiel.jara.stipjestrip.model.comic_model.Comic;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
 /**
  * Created By Chiel&Jara 03/2019

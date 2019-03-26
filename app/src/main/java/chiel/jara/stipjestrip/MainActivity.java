@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 
-import chiel.jara.stipjestrip.util.ComicHandler;
+import chiel.jara.stipjestrip.util.bar_util.BarHandler;
+import chiel.jara.stipjestrip.util.comic_util.ComicHandler;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivGif;
     private ProgressBar pbLoading;
     private ComicHandler myComicHandler;
+    private BarHandler myBarHandler;
 
     //OM TE TESTEN:
     private Button btnNext;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener nextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            Intent intent = new Intent(getApplicationContext(), BarListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         btnMaps.setOnClickListener(mapsListener);
 
         myComicHandler = new ComicHandler( getApplicationContext());
+        myBarHandler = new BarHandler(getApplicationContext());
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
         downloadData();
     }
@@ -77,6 +80,16 @@ public class MainActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder().url("https://bruxellesdata.opendatasoft.com/api/records/1.0/search/?dataset=comic-book-route&rows=50").get().build();
                     Response response = client.newCall(request).execute();
+                    OkHttpClient bars = new OkHttpClient();
+                    Request barRequest = new Request.Builder().url("https://opendata.visitflanders.org/tourist/reca/beer_bars.json").get().build();
+                    Response barResponse = bars.newCall(barRequest).execute();
+
+                    if (barResponse.body() != null){
+                        String barResponseBody = barResponse.body().string();
+                        Message barMessage = new Message();
+                        barMessage.obj = barResponseBody;
+                        myBarHandler.sendMessage(barMessage);
+                    }
 
                     if (response.body() != null){
                         String responsebodyText = response.body().string();

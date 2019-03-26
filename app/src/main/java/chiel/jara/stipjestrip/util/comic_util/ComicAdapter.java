@@ -1,4 +1,4 @@
-package chiel.jara.stipjestrip.util;
+package chiel.jara.stipjestrip.util.comic_util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import chiel.jara.stipjestrip.DetailActivity;
 import chiel.jara.stipjestrip.R;
-import chiel.jara.stipjestrip.model.Comic;
+import chiel.jara.stipjestrip.model.comic_model.Comic;
 
 /**
  * Created By Chiel&Jara 03/2019

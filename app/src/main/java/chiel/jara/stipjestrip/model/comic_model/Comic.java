@@ -1,4 +1,4 @@
-package chiel.jara.stipjestrip.model;
+package chiel.jara.stipjestrip.model.comic_model;
 
 
 import android.arch.persistence.room.Entity;

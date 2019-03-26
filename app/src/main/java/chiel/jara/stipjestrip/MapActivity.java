@@ -37,8 +37,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import chiel.jara.stipjestrip.model.Comic;
-import chiel.jara.stipjestrip.model.ComicDatabase;
+import chiel.jara.stipjestrip.model.comic_model.Comic;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
 /**
  * Created By Chiel&Jara 03/2019
