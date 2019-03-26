@@ -1,5 +1,6 @@
 package chiel.jara.stipjestrip;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 import chiel.jara.stipjestrip.util.ComicAdapter;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 public class ListActivity extends AppCompatActivity {
 
     private RecyclerView rvComics;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,4 +31,6 @@ public class ListActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);
     }
+
+
 }

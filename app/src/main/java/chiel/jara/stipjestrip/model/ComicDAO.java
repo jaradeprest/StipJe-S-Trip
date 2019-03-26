@@ -6,6 +6,10 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
+
 @Dao
 public interface ComicDAO {
 

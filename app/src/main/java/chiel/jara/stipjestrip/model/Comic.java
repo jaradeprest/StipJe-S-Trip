@@ -4,13 +4,16 @@ package chiel.jara.stipjestrip.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.media.Image;
 import android.support.annotation.NonNull;
 
-import java.net.URL;
+import java.io.Serializable;
+
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 
 @Entity
-public class Comic {
+public class Comic implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

@@ -2,6 +2,9 @@ package chiel.jara.stipjestrip.model;
 
 import java.util.ArrayList;
 
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 
 public class ComicDatasource {
     private static final ComicDatasource ourInstance = new ComicDatasource();
