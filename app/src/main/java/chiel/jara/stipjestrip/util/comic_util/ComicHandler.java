@@ -2,41 +2,26 @@ package chiel.jara.stipjestrip.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.CharArrayBuffer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.lang.annotation.Target;
 import java.lang.ref.WeakReference;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutionException;
 
 import chiel.jara.stipjestrip.MapActivity;
-import chiel.jara.stipjestrip.model.Comic;
-import chiel.jara.stipjestrip.model.ComicDatabase;
+import chiel.jara.stipjestrip.model.comic_model.Comic;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
 import static android.content.Context.MODE_PRIVATE;
 

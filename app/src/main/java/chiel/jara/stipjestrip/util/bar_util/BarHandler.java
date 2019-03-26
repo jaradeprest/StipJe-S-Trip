@@ -9,8 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.ExecutionException;
-
 import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 
