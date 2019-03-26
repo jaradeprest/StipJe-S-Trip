@@ -25,32 +25,14 @@ public class LaunchActivity extends AppCompatActivity {
     private ProgressBar pbLoading;
     private ComicHandler myComicHandler;
 
-    //OM TE TESTEN:
-    private Button btnNext;
-
-
-    //OM TE TESTEN:
-    private View.OnClickListener nextListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_launch);
         ivGif = findViewById(R.id.iv_walkingman);
         pbLoading = findViewById(R.id.pb_loading);
-
-        //OM TE TESTEN:
-        btnNext=findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(nextListener);
-
 
         myComicHandler = new ComicHandler( getApplicationContext(), pbLoading);
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
