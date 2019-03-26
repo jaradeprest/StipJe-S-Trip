@@ -16,10 +16,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ListActivity"></activity>
         <activity
-            android:theme="@style/AppTheme.ActionBar.Transparent"
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".MapActivity"></activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

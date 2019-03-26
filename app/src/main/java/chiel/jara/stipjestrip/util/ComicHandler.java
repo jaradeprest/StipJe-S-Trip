@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,7 @@ import java.net.URLConnection;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutionException;
 
+import chiel.jara.stipjestrip.MapActivity;
 import chiel.jara.stipjestrip.model.Comic;
 import chiel.jara.stipjestrip.model.ComicDatabase;
 
@@ -40,21 +43,24 @@ import static android.content.Context.MODE_PRIVATE;
 public class ComicHandler extends Handler {
 
     private Context context;
+    private ProgressBar progressBar;
 
-    public ComicHandler( Context context) {
+    public ComicHandler( Context context, ProgressBar progressBar) {
         this.context = context;
+        this.progressBar = progressBar;
     }
 
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
         String data = (String) msg.obj;
+        int index = 0;
 
         try {
             JSONObject rootObject = new JSONObject(data);
             JSONArray records = rootObject.getJSONArray("records");
             int aantalComics = records.length();
-            int index = 0;
+            index = 0;
             while (index<aantalComics){
                 JSONObject currentRecord = records.getJSONObject(index);//=huidige rij
                 JSONObject fields = currentRecord.getJSONObject("fields");//=wat zit er in de rij?
@@ -116,6 +122,7 @@ public class ComicHandler extends Handler {
                 }
 
                 index++;
+                progressBar.setProgress(index);
             }
         }catch (JSONException e){
             e.printStackTrace();
@@ -123,6 +130,12 @@ public class ComicHandler extends Handler {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        }
+
+        if (progressBar.getProgress() == progressBar.getMax()) {
+            Intent intent = new Intent(context, MapActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         }
 
     }

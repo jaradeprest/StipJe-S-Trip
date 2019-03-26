@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Filter">
+            <menu>
+                <item
+                    android:id="@+id/sw_strip"
+                    android:title="Strips"
+                    app:actionLayout="@layout/switch_item"
+                    app:showAsAction="always"
+                    android:checked="false"/>
+
+                <item
+                    android:id="@+id/sw_café"
+                    android:title="Cafés"
+                    app:actionLayout="@layout/switch_item"
+                    app:showAsAction="always"
+                    android:checked="false"/>
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="Navigeren">
+        <menu>
+            <item
+                android:id="@+id/btn_strips"
+                android:title="Striplijst" />
+            <item
+                android:id="@+id/btn_café"
+                android:title="Café lijst " />
+        </menu>
+    </item>
+
+</menu>
