@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 
 /**
@@ -30,6 +31,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView ivImage;
     private TextView tvAdres;
     private Comic chosenComic;
+    private Bar chosenBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         tvYear=findViewById(R.id.tv_year);
         tvAdres=findViewById(R.id.tv_adres);
 
+        //for comic
         chosenComic= (Comic) getIntent().getSerializableExtra("comic");
         tvTitle.setText(chosenComic.getName());
         tvAuthor.setText(chosenComic.getAuthor());
@@ -67,5 +70,14 @@ public class DetailActivity extends AppCompatActivity {
             tvAdres.setText("No Adres");
         }
 
+        //TODO invullen voor bar als er op marker van bar geklikt wordt
+        //for bar
+        /*chosenBar = (Bar) getIntent().getSerializableExtra("bar");
+        tvTitle.setText(chosenBar.getName());
+        String address = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() +", "+ chosenBar.getPostalcode() +" "+ chosenBar.getCity();
+        String phoneWebsite = chosenBar.getPhone()+"\n"+chosenBar.getWebsite();
+        tvAdres.setText(address);
+        tvAuthor.setText(phoneWebsite);
+        tvYear.setText(chosenBar.getDescription());*/
     }
 }

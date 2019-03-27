@@ -72,6 +72,7 @@ public class LaunchActivity extends AppCompatActivity {
         });
         backThread.start();
 
+        //TODO LETTERTYPE ????
         //TODO als data is binnengehaald, dan wordt launchscreen gesloten en wordt map_activity getoond
         Log.i("test", "downloadData: " + pbLoading.getProgress());
         if (pbLoading.getProgress() == pbLoading.getMax()) {
