@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import chiel.jara.stipjestrip.DetailActivity;
@@ -54,10 +56,11 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         }
     }
 
-    private List<Comic> comics;
+    private List<Comic> comics, filteredComics;
 
     public ComicAdapter(List<Comic> comics){
         this.comics = comics;
+        this.filteredComics = comics;
     }
 
     @NonNull
@@ -70,7 +73,7 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
 
     @Override
     public void onBindViewHolder(@NonNull ComicRowViewHolder comicRowViewHolder, final int i) {
-        final Comic currentComic = comics.get(i);
+        final Comic currentComic = filteredComics.get(i);
         //instellen op viewholder
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
@@ -85,6 +88,37 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
 
     @Override
     public int getItemCount() {
-        return comics.size();
+        return filteredComics.size();
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String filterComic = (constraint.toString()).toLowerCase();
+
+                if (filterComic.isEmpty()) {
+                    filteredComics = comics;
+                } else {
+                    ArrayList<Comic> tempList = new ArrayList<>();
+                    for (Comic comic : comics) {
+                        if (comic.getName().toLowerCase().contains(filterComic)) {
+                            tempList.add(comic);
+                        }
+                    }
+                    filteredComics = tempList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredComics;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredComics = (ArrayList<Comic>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

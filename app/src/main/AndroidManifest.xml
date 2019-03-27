@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:label= ""
         android:theme="@style/AppTheme">
-        <activity android:name=".ListActivity"></activity>
+        <activity android:name=".ComicListActivity"></activity>
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".BarListActivity"></activity>
         <activity

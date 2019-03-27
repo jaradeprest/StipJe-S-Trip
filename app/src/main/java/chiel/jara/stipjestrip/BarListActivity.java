@@ -14,6 +14,7 @@ import chiel.jara.stipjestrip.util.bar_util.BarAdapter;
 public class BarListActivity extends AppCompatActivity {
 
     private RecyclerView rvBars;
+    private BarAdapter myBarAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class BarListActivity extends AppCompatActivity {
         setContentView(R.layout.bar_activity_list);
         rvBars = findViewById(R.id.rv_bars);
 
-        BarAdapter myBarAdapter = new BarAdapter(BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars());
+        myBarAdapter = new BarAdapter(BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars());
         rvBars.setAdapter(myBarAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvBars.setLayoutManager(linearLayoutManager);
@@ -32,6 +33,22 @@ public class BarListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
+        searchView.setOnQueryTextListener(textListener);
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    public SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            myBarAdapter.getFilter().filter(query);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            myBarAdapter.getFilter().filter(newText);
+            return false;
+        }
+    };
 }

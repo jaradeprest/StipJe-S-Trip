@@ -50,7 +50,6 @@ import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
-
 /**
  * Created By Chiel&Jara 03/2019
  */
@@ -94,6 +93,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -108,6 +108,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         // set item as selected to persist highlight
@@ -118,7 +119,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case R.id.sw_café:
                 break;
             case R.id.btn_strips:
-                Intent intentC = new Intent(getApplicationContext(), ListActivity.class);
+                Intent intentC = new Intent(getApplicationContext(), ComicListActivity.class);
                 intentC.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentC);
                 // close drawer when item is tapped
@@ -152,7 +153,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public View getInfoContents(Marker marker) {
                     //FOR BAR
-                if (marker.getTag() == null) {
+                if (marker.getTag() instanceof Bar) {
                     View myContentBarView = getLayoutInflater().inflate(R.layout.info_window_map_bar, null, false);
                     TextView tvBarName = myContentBarView.findViewById(R.id.tv_marker_bar_name);
                     tvBarName.setText(marker.getTitle());
@@ -250,6 +251,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 .position(barLatLng)
                                 .icon(BitmapDescriptorFactory.defaultMarker(barKleur))
                 );
+                barMarker.setTag(bar);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -274,9 +276,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-            Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
-            detailIntent.putExtra("comic", (Comic) marker.getTag());
-            startActivity(detailIntent);
+         if (marker.getTag() instanceof Comic) {
+                Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
+                detailIntent.putExtra("comic", (Comic) marker.getTag());
+                startActivity(detailIntent);
+            }
+            if (marker.getTag() instanceof Bar) {
+                Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
+                detailIntent.putExtra("bar", (Bar) marker.getTag());
+                startActivity(detailIntent);
+            }
+
 
             //TODO zelfde maar voor barmarkers
     }

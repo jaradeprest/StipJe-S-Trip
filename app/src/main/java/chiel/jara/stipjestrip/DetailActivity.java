@@ -46,38 +46,41 @@ public class DetailActivity extends AppCompatActivity {
 
         //for comic
         chosenComic= (Comic) getIntent().getSerializableExtra("comic");
-        tvTitle.setText(chosenComic.getName());
-        tvAuthor.setText(chosenComic.getAuthor());
-        tvYear.setText(chosenComic.getYear());
+        if(chosenComic != null) {
+            tvTitle.setText(chosenComic.getName());
+            tvAuthor.setText(chosenComic.getAuthor());
+            tvYear.setText(chosenComic.getYear());
 
-        try {
-            FileInputStream fis = getApplicationContext().openFileInput(chosenComic.getImgID());
-            Bitmap bitmap = BitmapFactory.decodeStream(fis);
-            ivImage.setImageBitmap(bitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            try {
+                FileInputStream fis = getApplicationContext().openFileInput(chosenComic.getImgID());
+                Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                ivImage.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            //GEOCODER OM ADRES TE KRIJGEN UIT COORDINATEN
+            Geocoder comicLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
+            try {
+                List<Address> addresses;
+                addresses = (comicLocation.getFromLocation(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG(), 1));
+                String comicAdres = addresses.get(0).getAddressLine(0);
+                tvAdres.setText(comicAdres);
+            } catch (IOException e) {
+                e.printStackTrace();
+                tvAdres.setText("No Adres");
+            }
         }
-
-        //GEOCODER OM ADRES TE KRIJGEN UIT COORDINATEN
-        Geocoder comicLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
-        try {
-            List<Address> addresses;
-            addresses = (comicLocation.getFromLocation(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG(),1));
-            String comicAdres = addresses.get(0).getAddressLine(0);
-            tvAdres.setText(comicAdres);
-        } catch (IOException e) {
-            e.printStackTrace();
-            tvAdres.setText("No Adres");
-        }
-
         //TODO invullen voor bar als er op marker van bar geklikt wordt
         //for bar
-        /*chosenBar = (Bar) getIntent().getSerializableExtra("bar");
-        tvTitle.setText(chosenBar.getName());
-        String address = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() +", "+ chosenBar.getPostalcode() +" "+ chosenBar.getCity();
-        String phoneWebsite = chosenBar.getPhone()+"\n"+chosenBar.getWebsite();
-        tvAdres.setText(address);
-        tvAuthor.setText(phoneWebsite);
-        tvYear.setText(chosenBar.getDescription());*/
+        chosenBar = (Bar) getIntent().getSerializableExtra("bar");
+        if(chosenBar != null) {
+            tvTitle.setText(chosenBar.getName());
+            String address = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() + ", " + chosenBar.getPostalcode() + " " + chosenBar.getCity();
+            String phoneWebsite = chosenBar.getPhone() + "\n" + chosenBar.getWebsite();
+            tvAdres.setText(address);
+            tvAuthor.setText(phoneWebsite);
+            tvYear.setText(chosenBar.getDescription());
+        }
     }
 }

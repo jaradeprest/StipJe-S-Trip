@@ -16,9 +16,10 @@ import chiel.jara.stipjestrip.util.comic_util.ComicAdapter;
  * Created By Chiel&Jara 03/2019
  */
 
-public class ListActivity extends AppCompatActivity {
+public class ComicListActivity extends AppCompatActivity {
 
     private RecyclerView rvComics;
+    private ComicAdapter myComicAdapter;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -28,7 +29,7 @@ public class ListActivity extends AppCompatActivity {
         rvComics = findViewById(R.id.rv_comics);
 
         //recyclerview instellen:
-        ComicAdapter myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
+        myComicAdapter = new ComicAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics());
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);
@@ -39,8 +40,23 @@ public class ListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
+        searchView.setOnQueryTextListener(textListener);
+
         return super.onCreateOptionsMenu(menu);
     }
 
+    public SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            myComicAdapter.getFilter().filter(query);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            myComicAdapter.getFilter().filter(newText);
+            return false;
+        }
+    };
 
 }
