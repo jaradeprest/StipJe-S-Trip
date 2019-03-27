@@ -21,7 +21,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".MapActivity"></activity>
 
-        <activity android:name=".LaunchActivity">
+        <activity
+            android:name=".LaunchActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
