@@ -23,3 +23,5 @@ public abstract class BarDatabase extends RoomDatabase {
 
     public abstract BarDAO getMethodsBar();
 }
+
+//TODO SAMENVOEGEN IN 1 DATABASE / 1 DAO (meerdere entities in 1 database)

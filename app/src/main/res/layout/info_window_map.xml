@@ -27,6 +27,7 @@
         android:text="TextView"
         android:textColor="@color/colorBackground"
         android:textSize="10sp"
+        app:fontFamily="sans-serif-smallcaps"
         app:layout_constraintBottom_toBottomOf="@+id/iv_info_image"
         app:layout_constraintEnd_toEndOf="@+id/iv_info_image"
         app:layout_constraintStart_toStartOf="@+id/iv_info_image" />

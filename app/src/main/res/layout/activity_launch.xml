@@ -16,6 +16,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
         android:typeface="normal"
+        app:fontFamily="sans-serif-smallcaps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

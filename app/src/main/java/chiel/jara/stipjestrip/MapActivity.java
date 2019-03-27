@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -21,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +44,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 
+import chiel.jara.stipjestrip.model.bar_model.Bar;
+import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
@@ -145,18 +152,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             @Override
             public View getInfoContents(Marker marker) {
-                View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
-                TextView textView = myContentView.findViewById(R.id.tv_info_title);
-                textView.setText(marker.getTitle());
-                ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
-                try {
-                    FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
-                    Bitmap bitmap = BitmapFactory.decodeStream(fis);
-                    imageView.setImageBitmap(bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    //FOR BAR
+                if (marker.getTag() == null) {
+                    View myContentBarView = getLayoutInflater().inflate(R.layout.info_window_map_bar, null, false);
+                    TextView tvBarName = myContentBarView.findViewById(R.id.tv_marker_bar_name);
+                    tvBarName.setText(marker.getTitle());
+                    TextView tvBarAddress = myContentBarView.findViewById(R.id.tv_marker_bar_address);
+                    tvBarAddress.setText(marker.getSnippet());
+                    return myContentBarView;
+                } else {
+                    //FOR COMIC
+                    View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
+                    TextView textView = myContentView.findViewById(R.id.tv_info_title);
+                    textView.setText(marker.getTitle());
+                    ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
+                    try {
+                        FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
+                        Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                        imageView.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    return myContentView;
                 }
-                return myContentView;
             }
         });
         startLocationUpdates();
@@ -200,6 +218,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMarkers() {
+        //add comic markers
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
             float kleur = 195;
@@ -211,6 +230,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.defaultMarker(kleur))
             );
             newMarker.setTag(comic);
+        }
+        //add bar markers
+        for (Bar bar : BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars()){
+
+            Geocoder geocoder = new Geocoder(getApplicationContext());
+            String barAddress = bar.getStreet() +" "+ bar.getHouseNumber() + ", " + bar.getPostalcode() +" "+ bar.getCity();
+            List<Address> addresses;
+            try {
+                addresses = geocoder.getFromLocationName(barAddress, 1);
+                double latitude = addresses.get(0).getLatitude();
+                double longitude = addresses.get(0).getLongitude();
+
+                LatLng barLatLng = new LatLng(latitude, longitude);
+                float barKleur = 100;
+                Marker barMarker = map.addMarker(
+                        new MarkerOptions()
+                                .title(bar.getName())
+                                .snippet(barAddress)
+                                .position(barLatLng)
+                                .icon(BitmapDescriptorFactory.defaultMarker(barKleur))
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -232,8 +275,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
-        detailIntent.putExtra("comic", (Comic)marker.getTag());
-        startActivity(detailIntent);
+            Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
+            detailIntent.putExtra("comic", (Comic) marker.getTag());
+            startActivity(detailIntent);
+
+            //TODO zelfde maar voor barmarkers
     }
 }
