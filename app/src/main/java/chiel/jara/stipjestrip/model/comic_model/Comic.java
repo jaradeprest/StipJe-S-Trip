@@ -125,3 +125,6 @@ public class Comic implements Serializable {
                 '}';
     }
 }
+
+//DOCUMENTATION: All comics : https://bruxellesdata.opendatasoft.com/explore/dataset/comic-book-route/api/?q=bar
+//DOCUMENTATION: How to save files on device's storage : https://developer.android.com/training/data-storage/files

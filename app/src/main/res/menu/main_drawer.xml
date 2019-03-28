@@ -5,33 +5,46 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:title="Filter">
+        <item
+            android:id="@+id/title_menu_filter"
+            android:title="@string/txt_title_menu_filter">
             <menu>
                 <item
                     android:id="@+id/sw_strip"
-                    android:title="Strips"
+                    android:checked="false"
+                    android:title="@string/txt_switch_comics"
                     app:actionLayout="@layout/switch_item"
-                    app:showAsAction="always"
-                    android:checked="false"/>
+                    app:showAsAction="always" />
 
                 <item
                     android:id="@+id/sw_café"
-                    android:title="Cafés"
+                    android:checked="false"
+                    android:title="@string/txt_switch_bars"
                     app:actionLayout="@layout/switch_item"
-                    app:showAsAction="always"
-                    android:checked="false"/>
+                    app:showAsAction="always" />
             </menu>
         </item>
     </group>
 
-    <item android:title="Navigeren">
+    <item
+        android:id="@+id/title_menu_lists"
+        android:title="@string/menu_title_lists">
         <menu>
             <item
                 android:id="@+id/btn_strips"
-                android:title="Striplijst" />
+                android:title="@string/txt_btn_menu_comic" />
             <item
                 android:id="@+id/btn_café"
-                android:title="Café lijst " />
+                android:title="@string/txt_btn_menu_bar" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/title_menu_more"
+        android:title="@string/txt_menu_title_more">
+        <menu>
+            <item
+                android:id="@+id/btn_about"
+                android:title="@string/txt_title_menu_about" />
         </menu>
     </item>
 

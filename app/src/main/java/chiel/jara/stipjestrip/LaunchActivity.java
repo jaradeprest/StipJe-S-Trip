@@ -17,7 +17,9 @@ import chiel.jara.stipjestrip.util.bar_util.BarHandler;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 public class LaunchActivity extends AppCompatActivity {
 
     private ImageView ivGif;
@@ -72,8 +74,6 @@ public class LaunchActivity extends AppCompatActivity {
         });
         backThread.start();
 
-        //TODO LETTERTYPE ????
-        //TODO als data is binnengehaald, dan wordt launchscreen gesloten en wordt map_activity getoond
         Log.i("test", "downloadData: " + pbLoading.getProgress());
         if (pbLoading.getProgress() == pbLoading.getMax()) {
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
@@ -84,3 +84,6 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
 }
+//DOCUMENTATION: how to play the gif : https://stackoverflow.com/questions/20416383/how-to-play-gif-in-android
+//DOCUMENTATION: gif marsupilami : http://img.over-blog-kiwi.com/0/98/03/83/20150614/ob_174990_mdg-4512-0021-541.gif
+//DOCUMENTATION: png garfield as appIcon: http://www.stickpng.com/img/at-the-movies/cartoons/garfield/garfield-idea   https://developer.android.com/studio/write/image-asset-studio

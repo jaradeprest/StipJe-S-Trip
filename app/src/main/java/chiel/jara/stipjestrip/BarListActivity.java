@@ -10,7 +10,9 @@ import android.widget.SearchView;
 
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.util.bar_util.BarAdapter;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 public class BarListActivity extends AppCompatActivity {
 
     private RecyclerView rvBars;

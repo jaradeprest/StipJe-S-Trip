@@ -11,7 +11,9 @@ import org.json.JSONObject;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 public class BarHandler extends Handler {
 
     private Context context;

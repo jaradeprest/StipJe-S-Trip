@@ -44,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         tvYear=findViewById(R.id.tv_year);
         tvAdres=findViewById(R.id.tv_adres);
 
+
         //for comic
         chosenComic= (Comic) getIntent().getSerializableExtra("comic");
         if(chosenComic != null) {
@@ -71,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
                 tvAdres.setText("No Adres");
             }
         }
-        //TODO invullen voor bar als er op marker van bar geklikt wordt
+
         //for bar
         chosenBar = (Bar) getIntent().getSerializableExtra("bar");
         if(chosenBar != null) {

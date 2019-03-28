@@ -83,8 +83,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
 
@@ -131,6 +129,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intentB);
                 drawerLayout.closeDrawers();
                 break;
+            case R.id.btn_about:
+                Intent intentA = new Intent(getApplicationContext(), AboutActivity.class);
+                intentA.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentA);
+                drawerLayout.closeDrawers();
         }
         // Add code here to update the UI based on the item selected
         // For example, swap UI fragments here
@@ -286,8 +289,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 detailIntent.putExtra("bar", (Bar) marker.getTag());
                 startActivity(detailIntent);
             }
-
-
-            //TODO zelfde maar voor barmarkers
     }
 }
+//DOCUMENTATION: how to zoom on current location : https://stackoverflow.com/questions/18425141/android-google-maps-api-v2-zoom-to-current-location
+//DOCUMENTATION: how to click on marker : https://stackoverflow.com/questions/14226453/google-maps-api-v2-how-to-make-markers-clickable   https://blog.fossasia.org/marker-click-management-in-android-google-map-api-version-2/   https://stackoverflow.com/questions/39446198/how-to-use-onmarkerclick-to-open-a-new-activity-for-google-map-android-api
+//DOCUMENTATION: how to change infowindow of marker : https://stackoverflow.com/questions/21678545/how-to-change-info-window-custom-position-in-google-map-v2-android   https://mobikul.com/android-setting-custom-info-window-google-map-marker/   https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMap.InfoWindowAdapter
+//DOCUMENTATION: how to get address from coordinates : https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude   https://developer.android.com/reference/android/location/Geocoder   https://stackoverflow.com/questions/472313/android-reverse-geocoding-getfromlocation
+//DOCUMENTATION: how to get coordinates from address : https://stackoverflow.com/questions/9698328/how-to-get-coordinates-of-an-address-in-android

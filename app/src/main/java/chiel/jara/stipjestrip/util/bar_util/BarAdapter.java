@@ -13,8 +13,9 @@ import java.util.List;
 
 import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.bar_model.Bar;
-import chiel.jara.stipjestrip.model.comic_model.Comic;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder> {
 
     public class BarRowViewHolder extends RecyclerView.ViewHolder{
