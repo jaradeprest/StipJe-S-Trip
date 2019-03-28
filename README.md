@@ -2,7 +2,7 @@
 An app to navigate through Brussels and see all the Strips and bars nearby.
 
 
-Copyright 2019 Chiel&Jara
+Copyright 2019 departement Design & Technologie van de Erasmushogeschool Brussel
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
