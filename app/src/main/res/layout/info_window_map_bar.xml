@@ -15,7 +15,7 @@
         android:gravity="right"
         android:textColor="@color/colorPrimaryDark"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/iv_beer"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="testBarName" />
 
@@ -24,12 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/colorAccentSeeThrough"
         android:gravity="right"
         android:textColor="@color/colorPrimary"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_marker_bar_name" />
@@ -43,26 +41,35 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:gravity="right"
         android:textColor="@color/colorBackground"
         android:textSize="10sp"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/iv_beer"
         app:layout_constraintTop_toBottomOf="@+id/tv_marker_bar_name"
         tools:text="testBarAddress" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_beer"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/beer" />
+
+    <TextView
+        android:id="@+id/tv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/txt_rv_rating"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10sp"
+        app:fontFamily="sans-serif-smallcaps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_marker_bar_lijn" />
 
 </android.support.constraint.ConstraintLayout>

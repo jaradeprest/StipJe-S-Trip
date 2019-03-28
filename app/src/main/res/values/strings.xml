@@ -13,4 +13,5 @@
     <string name="txt_menu_title_more">More :</string>
     <string name="txt_tv_about_intro">We are Chiel and Jara. We created an app for you, to tour around in Brussels and follow the comicroute. As an addition to the comicroute, we also included bars that are nearby. So you can find the closest place to have a drink!</string>
     <string name="txt_tv_about_assignment">This app was an assignment in the course "Mobile Application Development", at the Erasmushogeschool Brussel, Departement Design and Technology. This course is a colaboration with VDAB.</string>
+    <string name="txt_rv_rating">Rating :   . / 10</string>
 </resources>

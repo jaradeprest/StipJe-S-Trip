@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="testauteur" />
+        tools:text="test test" />
 
     <TextView
         android:id="@+id/tv_year"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
         app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
         app:layout_constraintTop_toBottomOf="@+id/tv_author"
-        tools:text="testjaar" />
+        tools:text="test test" />
 
     <TextView
         android:id="@+id/tv_adres"
@@ -76,5 +76,18 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
-        tools:text="testadres" />
+        tools:text="test test" />
+
+    <ImageButton
+        android:id="@+id/btn_rating"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="64dp"
+        android:background="@color/emptyBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_detail_image"
+        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
+        app:srcCompat="@android:drawable/btn_star" />
 </android.support.constraint.ConstraintLayout>

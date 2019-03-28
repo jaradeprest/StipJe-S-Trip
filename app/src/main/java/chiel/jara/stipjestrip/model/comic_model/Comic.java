@@ -22,6 +22,7 @@ public class Comic implements Serializable {
     private String name, author, year, imageName;
     private double coordinateLONG, coordinateLAT;
     private String URLimg;
+    private boolean isFavorite = false;
 
     public Comic() {
     }
@@ -110,6 +111,14 @@ public class Comic implements Serializable {
         this.URLimg = URLimg;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @Override
     public String toString() {
         return "Comic{" +
@@ -122,6 +131,7 @@ public class Comic implements Serializable {
                 ", coordinateLONG=" + coordinateLONG +
                 ", coordinateLAT=" + coordinateLAT +
                 ", URLimg='" + URLimg + '\'' +
+                ", isFavorite=" + isFavorite +
                 '}';
     }
 }

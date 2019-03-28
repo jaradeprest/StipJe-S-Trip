@@ -3,6 +3,7 @@ package chiel.jara.stipjestrip;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,11 +22,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -45,6 +50,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
@@ -162,6 +168,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     tvBarName.setText(marker.getTitle());
                     TextView tvBarAddress = myContentBarView.findViewById(R.id.tv_marker_bar_address);
                     tvBarAddress.setText(marker.getSnippet());
+
                     return myContentBarView;
                 } else {
                     //FOR COMIC
