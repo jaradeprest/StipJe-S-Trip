@@ -3,6 +3,7 @@ package chiel.jara.stipjestrip.model.comic_model;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ComicDAO {
     //Alle data opvragen
     @Query("select * from Comic")
     List<Comic> getAllComics();
+
+    //date updaten
+    @Update
+    void updateComic (Comic... comic);
 }

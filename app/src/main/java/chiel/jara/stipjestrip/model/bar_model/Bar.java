@@ -23,6 +23,8 @@ public class Bar implements Serializable {
     private String phone;
     private String website;
     private String description;
+    private boolean rated=false;
+    private int rating;
 
     public Bar() {
     }
@@ -111,6 +113,22 @@ public class Bar implements Serializable {
         this.description = description;
     }
 
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     @Override
     public String toString() {
         return "Bar{" +
@@ -123,8 +141,11 @@ public class Bar implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", website='" + website + '\'' +
                 ", description='" + description + '\'' +
+                ", rated=" + rated +
+                ", rating=" + rating +
                 '}';
     }
 }
+
 //DOCUMENTATION: All bars : https://opendata.visitflanders.org/tourist/reca/beer_bars.json   https://opendata.visitflanders.org/tourist/reca/beer_bars
 

@@ -22,7 +22,7 @@ public class Comic implements Serializable {
     private String name, author, year, imageName;
     private double coordinateLONG, coordinateLAT;
     private String URLimg;
-    private boolean isFavorite = false;
+    private boolean isFavorite=false;
 
     public Comic() {
     }
