@@ -25,14 +25,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -49,6 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +75,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ActionBar actionbar;
+    private MenuItem miStrips, miBars;
+    private Switch swiStrip, swiBars;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +97,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        miStrips = navigationView.getMenu().findItem(R.id.sw_strip);
+        swiStrip = miStrips.getActionView().findViewById(R.id.swi_for_menu);
+        miBars = navigationView.getMenu().findItem(R.id.sw_café);
+        swiBars = miBars.getActionView().findViewById(R.id.swi_for_menu);
+
+        swiStrip.setOnCheckedChangeListener(changeListener);
+        swiBars.setOnCheckedChangeListener(changeListener);
+
     }
 
 
@@ -114,6 +129,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO Filteren op het juiste categorie
+    public CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            map.clear();
+
+            if (swiStrip.isChecked()) {
+                addComicMarkers();
+            }
+            if (swiBars.isChecked()) {
+                addBarMarkers();
+            }
+
+        }
+    };
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -121,8 +151,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int id = menuItem.getItemId();
         switch (id) {
             case R.id.sw_strip:
+                if (swiStrip.isChecked()) {
+                    swiStrip.setChecked(false);
+                } else {
+                    swiStrip.setChecked(true);
+                }
+                swiStrip.setOnCheckedChangeListener(changeListener);
                 break;
             case R.id.sw_café:
+                if (swiBars.isChecked()) {
+                    swiBars.setChecked(false);
+                } else {
+                    swiBars.setChecked(true);
+                }
+                swiBars.setOnCheckedChangeListener(changeListener);
                 break;
             case R.id.btn_strips:
                 Intent intentC = new Intent(getApplicationContext(), ComicListActivity.class);
@@ -234,19 +276,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMarkers() {
-        //add comic markers
-        for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
-            LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
-            float kleur = 195;
-            Marker newMarker = map.addMarker(
-                    new MarkerOptions()
-                            .title(comic.getName() +" - "+ comic.getAuthor())
-                            .snippet(comic.getImgID())
-                            .position(latLng)
-                            .icon(BitmapDescriptorFactory.defaultMarker(kleur))
-            );
-            newMarker.setTag(comic);
-        }
+        addComicMarkers();
+        addBarMarkers();
+    }
+
+    private void addBarMarkers() {
         //add bar markers
         for (Bar bar : BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars()){
 
@@ -273,6 +307,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
+
+    private void addComicMarkers() {
+        //add comic markers
+        for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
+            LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
+            float kleur = 195;
+
+            Marker newMarker = map.addMarker(
+                    new MarkerOptions()
+                            .title(comic.getName() +" - "+ comic.getAuthor())
+                            .snippet(comic.getImgID())
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.defaultMarker(kleur))
+            );
+            newMarker.setTag(comic);
+        }
+    }
+
 
     @SuppressLint("MissingPermission")
     @Override
@@ -303,11 +355,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(detailIntent);
             }
     }
-
-    /*@Override
-    protected void onRestart() {
-        super.onRestart();
-    }*/
 }
 //DOCUMENTATION: how to zoom on current location : https://stackoverflow.com/questions/18425141/android-google-maps-api-v2-zoom-to-current-location
 //DOCUMENTATION: how to click on marker : https://stackoverflow.com/questions/14226453/google-maps-api-v2-how-to-make-markers-clickable   https://blog.fossasia.org/marker-click-management-in-android-google-map-api-version-2/   https://stackoverflow.com/questions/39446198/how-to-use-onmarkerclick-to-open-a-new-activity-for-google-map-android-api
