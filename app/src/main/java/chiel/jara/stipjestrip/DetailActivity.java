@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -13,13 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.FileInputStream;
@@ -139,7 +136,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     showRatingDialog(DetailActivity.this);
                     if (!chosenBar.isRated()){
-                        chosenBar.setRated(true);
+                        chosenBar.setRated(true); //TODO LIJNTJE MAG WEG
                         BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);
                         btnRating.setImageResource(android.R.drawable.btn_star_big_on);
                     }else{BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);}
@@ -149,26 +146,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void showRatingDialog(Context context){
-        final EditText rating = new EditText(context);
-        rating.setInputType(InputType.TYPE_CLASS_NUMBER);
-        rating.setRawInputType(Configuration.KEYBOARD_12KEY);
-        final TextView onTen = new TextView(context);
-        onTen.setText("/10");
-
-        //creating a layout with those fields, to use in alertDialog
-        //TODO create a layout in xml to put et en tv next to eachother
-        LinearLayout layout = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(layoutParams);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.bottomMargin = 5;
-        layout.addView(rating, params);
-        layout.addView(onTen, params);
+        //created a layout to use in alertDialog
+        View ratingView = getLayoutInflater().inflate(R.layout.rating_window_bar, null, false);
+        final EditText rating;
+        rating = ratingView.findViewById(R.id.et_rating_alert_yourRating);
 
         AlertDialog ratingDialog = new AlertDialog.Builder(context)
-                .setTitle("Give your rating")
-                .setView(layout)
+                .setView(ratingView)
                 .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -178,10 +162,18 @@ public class DetailActivity extends AppCompatActivity {
                         ImageButton btnRating = findViewById(R.id.btn_rating);
                         btnRating.setImageResource(android.R.drawable.btn_star_big_on);
                         BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);
+                        chosenBar.setRated(true);
                         //TODO save ratings per bar : calculate average ./10
                         //TODO make array allRatings. Add a rating to array (allRatings.add) and calculate value of rating = allRatings/ratings.size
                     }
-                }).setNegativeButton("Cancel", null).create();
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!chosenBar.isRated()) {
+                            btnRating.setImageResource(android.R.drawable.btn_star_big_off);
+                        }
+                    }
+                }).create();
         ratingDialog.show();
     }
 
