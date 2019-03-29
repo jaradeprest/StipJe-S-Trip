@@ -23,7 +23,6 @@ public class Comic implements Serializable {
     private double coordinateLONG, coordinateLAT;
     private String URLimg;
     private boolean isFavorite=false;
-    private String cat;
 
     public Comic() {
     }
@@ -37,16 +36,6 @@ public class Comic implements Serializable {
         this.imageName = imageName;
         this.coordinateLONG = coordinateLONG;
         this.coordinateLAT = coordinateLAT;
-        this.cat = "comic";
-    }
-
-
-    public String getCat() {
-        return cat;
-    }
-
-    public void setCat(String cat) {
-        this.cat = cat;
     }
 
     public long getId() {

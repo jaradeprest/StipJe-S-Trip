@@ -25,7 +25,6 @@ public class Bar implements Serializable {
     private String description;
     private boolean rated=false;
     private int rating;
-    private String cat;
 
     public Bar() {
     }
@@ -40,15 +39,6 @@ public class Bar implements Serializable {
         this.phone = phone;
         this.website = website;
         this.description = description;
-        this.cat = "bar";
-    }
-
-    public String getCat() {
-        return cat;
-    }
-
-    public void setCat(String cat) {
-        this.cat = cat;
     }
 
     public long getId() {

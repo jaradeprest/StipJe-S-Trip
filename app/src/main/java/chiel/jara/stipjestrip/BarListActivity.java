@@ -53,4 +53,6 @@ public class BarListActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    //TODO add rating to list
 }

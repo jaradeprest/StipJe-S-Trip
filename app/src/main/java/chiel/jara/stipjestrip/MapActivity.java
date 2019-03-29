@@ -3,7 +3,6 @@ package chiel.jara.stipjestrip;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,16 +21,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -52,15 +46,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
 import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
-import chiel.jara.stipjestrip.util.comic_util.ComicAdapter;
 
 /**
  * Created By Chiel&Jara 03/2019
@@ -108,7 +99,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-
     //Aanmaken Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,7 +131,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if (swiBars.isChecked()) {
                 addBarMarkers();
             }
-
         }
     };
 
@@ -185,8 +174,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intentA);
                 drawerLayout.closeDrawers();
         }
-        // Add code here to update the UI based on the item selected
-        // For example, swap UI fragments here
         return true;
     }
 

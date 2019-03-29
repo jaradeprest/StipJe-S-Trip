@@ -59,4 +59,5 @@ public class ComicListActivity extends AppCompatActivity {
         }
     };
 
+    //TODO add favorite button to the list
 }
