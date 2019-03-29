@@ -9,10 +9,10 @@
             <menu>
                 <item
                     android:id="@+id/sw_strip"
+                    android:checked="false"
                     android:title="Strips"
                     app:actionLayout="@layout/switch_item"
-                    app:showAsAction="always"
-                    android:checked="false"/>
+                    app:showAsAction="always" />
 
                 <item
                     android:id="@+id/sw_café"
