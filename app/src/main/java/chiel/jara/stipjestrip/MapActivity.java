@@ -137,7 +137,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     };
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         // set item as selected to persist highlight
