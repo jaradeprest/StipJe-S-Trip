@@ -338,6 +338,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(detailIntent);
             }
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
 //DOCUMENTATION: how to zoom on current location : https://stackoverflow.com/questions/18425141/android-google-maps-api-v2-zoom-to-current-location
 //DOCUMENTATION: how to click on marker : https://stackoverflow.com/questions/14226453/google-maps-api-v2-how-to-make-markers-clickable   https://blog.fossasia.org/marker-click-management-in-android-google-map-api-version-2/   https://stackoverflow.com/questions/39446198/how-to-use-onmarkerclick-to-open-a-new-activity-for-google-map-android-api
