@@ -1,7 +1,9 @@
 package chiel.jara.stipjestrip.model.bar_model;
 
 import java.util.ArrayList;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 public class BarDatasource {
     private static final BarDatasource ourInstance = new BarDatasource();
 

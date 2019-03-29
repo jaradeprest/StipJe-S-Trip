@@ -6,7 +6,9 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-
+/**
+ * Created By Chiel&Jara 03/2019
+ */
 @Entity
 public class Bar implements Serializable {
 
@@ -134,3 +136,5 @@ public class Bar implements Serializable {
                 '}';
     }
 }
+//DOCUMENTATION: All bars : https://opendata.visitflanders.org/tourist/reca/beer_bars.json   https://opendata.visitflanders.org/tourist/reca/beer_bars
+
