@@ -329,7 +329,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void addBarMarkers() {
         //add bar markers
         barMarkers = new ArrayList<>();
-        for (Bar bar : ComicDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars()){
+        for (Bar bar : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllBars()){
 
             Geocoder geocoder = new Geocoder(getApplicationContext());
             String barAddress = bar.getStreet() +" "+ bar.getHouseNumber() + ", " + bar.getPostalcode() +" "+ bar.getCity();
