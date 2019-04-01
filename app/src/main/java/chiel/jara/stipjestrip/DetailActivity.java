@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
-import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
@@ -67,8 +69,11 @@ public class DetailActivity extends AppCompatActivity {
             //CHECK IF COMIC IS FAVORITE
             Log.i("is favorite?", String.valueOf(chosenComic.isFavorite()));
             if (!chosenComic.isFavorite()){
-                btnRating.setImageResource(android.R.drawable.btn_star_big_off);
-            }else {btnRating.setImageResource(android.R.drawable.btn_star_big_on);}
+                btnRating.setImageResource(R.drawable.like);
+                btnRating.setColorFilter(Color.rgb(4, 113, 64));
+            }else {btnRating.setImageResource(R.drawable.like);
+                btnRating.setColorFilter(Color.RED);
+            }
 
             tvTitle.setText(chosenComic.getName());
             tvAuthor.setText(chosenComic.getAuthor());
@@ -88,12 +93,14 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (!chosenComic.isFavorite()){
                         chosenComic.setFavorite(true);
-                        btnRating.setImageResource(android.R.drawable.btn_star_big_on);
+                        btnRating.setImageResource(R.drawable.like);
+                        btnRating.setColorFilter(Color.RED);
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
                         Log.i("update comic", String.valueOf(chosenComic.isFavorite()));
                     }else {
                         chosenComic.setFavorite(false);
-                        btnRating.setImageResource(android.R.drawable.btn_star_big_off);
+                        btnRating.setImageResource(R.drawable.like);
+                        btnRating.setColorFilter(Color.rgb(4, 113, 64));
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
                         Log.i("update comic", String.valueOf(chosenComic.isFavorite()));
                     }
@@ -122,7 +129,9 @@ public class DetailActivity extends AppCompatActivity {
                 btnRating.setImageResource(android.R.drawable.btn_star_big_on);
                 String stringRating = String.valueOf(chosenBar.getRating());
                 tvRating.setText("Rating: "+ stringRating + "/10");
-            }else {tvRating.setText("Give your rating by clicking on the star.");}
+            }else {tvRating.setText("Give your rating by clicking on the star.");
+                btnRating.setImageResource(android.R.drawable.btn_star_big_off);
+            }
 
 
             tvTitle.setText(chosenBar.getName());
@@ -136,16 +145,15 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     showRatingDialog(DetailActivity.this);
                     if (!chosenBar.isRated()){
-                        chosenBar.setRated(true); //TODO LIJNTJE MAG WEG
-                        BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);
+                        ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateBar(chosenBar);
                         btnRating.setImageResource(android.R.drawable.btn_star_big_on);
-                    }else{BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);}
+                    }else{ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateBar(chosenBar);}
                 }
             });
         }
     }
 
-    private void showRatingDialog(Context context){
+    private void showRatingDialog(final Context context){
         //created a layout to use in alertDialog
         View ratingView = getLayoutInflater().inflate(R.layout.rating_window_bar, null, false);
         final EditText rating;
@@ -157,14 +165,18 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String yourRating = String.valueOf(rating.getText());
-                        tvRating.setText("Rating: "+ yourRating + "/10");
-                        chosenBar.setRating(Integer.valueOf(yourRating));
-                        ImageButton btnRating = findViewById(R.id.btn_rating);
-                        btnRating.setImageResource(android.R.drawable.btn_star_big_on);
-                        BarDatabase.getInstance(getApplicationContext()).getMethodsBar().updateBar(chosenBar);
-                        chosenBar.setRated(true);
-                        //TODO save ratings per bar : calculate average ./10
-                        //TODO make array allRatings. Add a rating to array (allRatings.add) and calculate value of rating = allRatings/ratings.size
+                        int numberRating = Integer.valueOf(yourRating);
+                        if (numberRating<=10){
+                            tvRating.setText("Rating: "+ yourRating + "/10");
+                            chosenBar.setRating(Integer.valueOf(yourRating));
+                            ImageButton btnRating = findViewById(R.id.btn_rating);
+                            btnRating.setImageResource(android.R.drawable.btn_star_big_on);
+                            chosenBar.setRated(true);
+                            ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateBar(chosenBar);
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Please enter a number between 1 and 10", Toast.LENGTH_LONG).show();
+                            btnRating.setImageResource(android.R.drawable.btn_star_big_off);
+                        }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -175,14 +187,6 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 }).create();
         ratingDialog.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(this, MapActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 }
 

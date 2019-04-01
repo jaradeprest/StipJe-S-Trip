@@ -5,11 +5,13 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import chiel.jara.stipjestrip.model.bar_model.Bar;
+
 /**
  * Created By Chiel&Jara 03/2019
  */
 
-@Database(entities = {Comic.class}, version = 1, exportSchema = false)
+@Database(entities = {Comic.class, Bar.class}, version = 1, exportSchema = false)
 public abstract class ComicDatabase extends RoomDatabase {
 
     private static ComicDatabase instance;

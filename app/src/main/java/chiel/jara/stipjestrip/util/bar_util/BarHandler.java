@@ -10,7 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
-import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
+
 /**
  * Created By Chiel&Jara 03/2019
  */
@@ -93,14 +94,14 @@ public class BarHandler extends Handler {
                 Bar currentBar = new Bar(name, street, houseNumber, postalCode, cityName, phone, website, description);
 
                 boolean barExist = false;
-                for (Bar bar : BarDatabase.getInstance(context).getMethodsBar().getAllBars()) {
+                for (Bar bar : ComicDatabase.getInstance(context).getMethodsComic().getAllBars()) {
                     if (bar.getName().equals(currentBar.getName())) {
                         barExist = true;
                         break;
                     }
                 }
                 if (!barExist) {
-                    BarDatabase.getInstance(context).getMethodsBar().addBar(currentBar);
+                    ComicDatabase.getInstance(context).getMethodsComic().addBar(currentBar);
                 }
 
                 index++;

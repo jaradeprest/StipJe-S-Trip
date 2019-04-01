@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -27,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Switch;
@@ -49,7 +51,6 @@ import java.io.IOException;
 import java.util.List;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
-import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
@@ -119,7 +120,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO Filteren op het juiste categorie
     public CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -203,13 +203,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (((Bar) marker.getTag()).isRated()){
                     String rating = String.valueOf(((Bar) marker.getTag()).getRating());
                     tvRating.setText("Rating: "+ rating + " / 10");
-                    }
+                    }else{tvRating.setVisibility(View.INVISIBLE);}
                     return myContentBarView;
                 } else {
                     //FOR COMIC
                     View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
                     TextView textView = myContentView.findViewById(R.id.tv_info_title);
                     textView.setText(marker.getTitle());
+
+                    //show heart when comic is favorite
+                    ImageButton imageButton = myContentView.findViewById(R.id.ib_favo);
+                    if (((Comic) marker.getTag()).isFavorite()){
+                        imageButton.setColorFilter(Color.RED);
+                    }else{imageButton.setVisibility(View.INVISIBLE);
+                    }
+
                     ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
                     try {
                         FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
@@ -259,13 +267,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMarkers() {
-        addComicMarkers();
         addBarMarkers();
+        addComicMarkers();
     }
 
     private void addBarMarkers() {
         //add bar markers
-        for (Bar bar : BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars()){
+        for (Bar bar : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllBars()){
 
             Geocoder geocoder = new Geocoder(getApplicationContext());
             String barAddress = bar.getStreet() +" "+ bar.getHouseNumber() + ", " + bar.getPostalcode() +" "+ bar.getCity();
@@ -277,6 +285,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 LatLng barLatLng = new LatLng(latitude, longitude);
                 float barKleur = 100;
+
+                if (bar.isRated()){
+                    barKleur = 60;
+                }
+
                 Marker barMarker = map.addMarker(
                         new MarkerOptions()
                                 .title(bar.getName())
@@ -296,6 +309,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
             float kleur = 195;
+
+            if (comic.isFavorite()){
+                kleur = 0;
+            }
 
             Marker newMarker = map.addMarker(
                     new MarkerOptions()
@@ -337,6 +354,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 detailIntent.putExtra("bar", (Bar) marker.getTag());
                 startActivity(detailIntent);
             }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        map.clear();
+        if (swiBars.isChecked()){
+            addBarMarkers();
+        }
+        if (swiStrip.isChecked()){
+            addComicMarkers();
+        }
     }
 
     @Override

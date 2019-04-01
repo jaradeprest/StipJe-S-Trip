@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.widget.SearchView;
 
-import chiel.jara.stipjestrip.model.bar_model.BarDatabase;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 import chiel.jara.stipjestrip.util.bar_util.BarAdapter;
 /**
  * Created By Chiel&Jara 03/2019
@@ -24,7 +24,7 @@ public class BarListActivity extends AppCompatActivity {
         setContentView(R.layout.bar_activity_list);
         rvBars = findViewById(R.id.rv_bars);
 
-        myBarAdapter = new BarAdapter(BarDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars());
+        myBarAdapter = new BarAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllBars());
         rvBars.setAdapter(myBarAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvBars.setLayoutManager(linearLayoutManager);
@@ -53,6 +53,4 @@ public class BarListActivity extends AppCompatActivity {
             return false;
         }
     };
-
-    //TODO add rating to list
 }

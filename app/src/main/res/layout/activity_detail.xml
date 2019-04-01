@@ -81,13 +81,14 @@
     <ImageButton
         android:id="@+id/btn_rating"
         style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="64dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/emptyBackground"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_detail_image"
-        app:layout_constraintEnd_toEndOf="@+id/iv_detail_image"
-        app:srcCompat="@android:drawable/btn_star" />
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/tv_adres"
+        app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
+        app:srcCompat="@drawable/like" />
 </android.support.constraint.ConstraintLayout>
