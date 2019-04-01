@@ -301,10 +301,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Location myLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
             if (myLocation != null){
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 15));
-
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(myLocation.getLatitude(), myLocation.getLongitude())).zoom(15).tilt(40).build();
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-                map.animateCamera(cameraUpdate);
             }
         }else{
             CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
@@ -399,6 +395,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 detailIntent.putExtra("bar", (Bar) marker.getTag());
                 startActivity(detailIntent);
             }
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }
 //DOCUMENTATION: how to zoom on current location : https://stackoverflow.com/questions/18425141/android-google-maps-api-v2-zoom-to-current-location
