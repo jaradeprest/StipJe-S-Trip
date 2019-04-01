@@ -24,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import chiel.jara.stipjestrip.model.bar_model.Bar;
@@ -69,6 +71,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ActionBar actionbar;
     private MenuItem miStrips, miBars;
     private Switch swiStrip, swiBars;
+    private Context context;
+    ArrayList<Marker> comicMarkers;
+    ArrayList<Marker> barMarkers;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         swiStrip.setOnCheckedChangeListener(changeListener);
         swiBars.setOnCheckedChangeListener(changeListener);
+        context = this;
 
     }
 
@@ -105,9 +111,58 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
+        searchView.setOnQueryTextListener(textListener);
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    public SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
+        List<Bar> bars = ComicDatabase.getInstance(context).getMethodsComic().getAllBars();
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            for (Marker comicMarker : comicMarkers) {
+                Comic comic = (Comic) comicMarker.getTag();
+                if (comic.getName().equalsIgnoreCase(query)) {
+                    CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
+                    CameraPosition backUpPosition = backUpBuilder.target(new LatLng(comic.getCoordinateLAT(),comic.getCoordinateLONG())).zoom(18).tilt(60).build();
+                    CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
+                    map.animateCamera(updateBackUp);
+                   comicMarker.showInfoWindow();
+                    return true;
+                }
+            }
+
+            for (Marker barMarker : barMarkers) {
+                Bar bar = (Bar) barMarker.getTag();
+                if (bar.getName().equalsIgnoreCase(query)) {
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    String barAddress = bar.getStreet() +" "+ bar.getHouseNumber() + ", " + bar.getPostalcode() +" "+ bar.getCity();
+                    List<Address> addresses;
+                    try {
+                        addresses = geocoder.getFromLocationName(barAddress, 1);
+
+                        double latitude = addresses.get(0).getLatitude();
+                        double longitude = addresses.get(0).getLongitude();
+
+                        CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
+                        CameraPosition backUpPosition = backUpBuilder.target(new LatLng(latitude,longitude)).zoom(18).tilt(60).build();
+                        CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
+                        map.animateCamera(updateBackUp);
+                        barMarker.showInfoWindow();
+                        return true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
 
     //Iets selecteren van uit het menu
     @Override
@@ -267,13 +322,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addMarkers() {
-        addBarMarkers();
         addComicMarkers();
+        addBarMarkers();
     }
 
     private void addBarMarkers() {
         //add bar markers
-        for (Bar bar : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllBars()){
+        barMarkers = new ArrayList<>();
+        for (Bar bar : ComicDatabase.getInstance(getApplicationContext()).getMethodsBar().getAllBars()){
 
             Geocoder geocoder = new Geocoder(getApplicationContext());
             String barAddress = bar.getStreet() +" "+ bar.getHouseNumber() + ", " + bar.getPostalcode() +" "+ bar.getCity();
@@ -298,6 +354,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 .icon(BitmapDescriptorFactory.defaultMarker(barKleur))
                 );
                 barMarker.setTag(bar);
+                barMarkers.add(barMarker);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -306,6 +363,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void addComicMarkers() {
         //add comic markers
+        comicMarkers = new ArrayList<>();
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
             float kleur = 195;
@@ -322,6 +380,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.defaultMarker(kleur))
             );
             newMarker.setTag(comic);
+            comicMarkers.add(newMarker);
         }
     }
 
