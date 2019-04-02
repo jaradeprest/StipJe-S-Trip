@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
 
     public class BarRowViewHolder extends RecyclerView.ViewHolder{
         private TextView tvName, tvAdress, tvPhone, tvWebsite, tvDescription;
+        private ImageButton btnRating;
 
         public BarRowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -28,6 +30,7 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
             tvPhone=itemView.findViewById(R.id.tv_phone_bar);
             tvWebsite=itemView.findViewById(R.id.tv_website_bar);
             tvDescription=itemView.findViewById(R.id.tv_description_bar);
+            btnRating=itemView.findViewById(R.id.btn_rating);
         }
     }
 
@@ -46,13 +49,26 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BarRowViewHolder barRowViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final BarRowViewHolder barRowViewHolder, final int i) {
         final Bar currentBar = filteredBars.get(i);
         barRowViewHolder.tvName.setText(currentBar.getName());
         barRowViewHolder.tvAdress.setText(currentBar.getStreet()+" "+currentBar.getHouseNumber()+", "+currentBar.getPostalcode()+" "+currentBar.getCity());
         barRowViewHolder.tvPhone.setText(currentBar.getPhone());
         barRowViewHolder.tvWebsite.setText(currentBar.getWebsite());
         barRowViewHolder.tvDescription.setText(currentBar.getDescription());
+
+        /*if (currentBar.isRated()){
+            barRowViewHolder.btnRating.setImageResource(android.R.drawable.star_big_on);
+        }
+        barRowViewHolder.btnRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barRowViewHolder.btnRating.setImageResource(android.R.drawable.btn_star_big_on);
+                //TODO alertdialog vanuit list
+                //TODO rating weergeven in list
+            }
+        });*/
+
     }
 
     @Override

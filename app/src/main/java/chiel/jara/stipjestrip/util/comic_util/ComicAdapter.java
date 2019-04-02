@@ -53,6 +53,8 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             ivComic=itemView.findViewById(R.id.iv_row_image);
             btnDetails=itemView.findViewById(R.id.btn_detail);
             btnDetails.setOnClickListener(detailListener);
+
+            //TODO btnFavo toevoegen + aan/uit kunnen zetten
         }
     }
 

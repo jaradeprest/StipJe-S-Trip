@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -24,7 +25,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,7 +112,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
         searchView.setOnQueryTextListener(textListener);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -131,7 +130,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     return true;
                 }
             }
-
             for (Marker barMarker : barMarkers) {
                 Bar bar = (Bar) barMarker.getTag();
                 if (bar.getName().equalsIgnoreCase(query)) {
@@ -157,7 +155,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             return false;
         }
-
         @Override
         public boolean onQueryTextChange(String newText) {
             return false;
@@ -179,13 +176,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             map.clear();
-
             if (swiStrip.isChecked()) {
-                addComicMarkers();
-            }
+                addComicMarkers(); }
             if (swiBars.isChecked()) {
-                addBarMarkers();
-            }
+                addBarMarkers(); }
         }
     };
 
@@ -268,9 +262,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     //show heart when comic is favorite
                     ImageButton imageButton = myContentView.findViewById(R.id.ib_favo);
+                    ImageButton visitedButton = myContentView.findViewById(R.id.ib_visited);
                     if (((Comic) marker.getTag()).isFavorite()){
                         imageButton.setColorFilter(Color.RED);
                     }else{imageButton.setVisibility(View.INVISIBLE);
+                    }
+
+                    if (((Comic)marker.getTag()).isVisited()){
+                        visitedButton.setColorFilter(Color.WHITE);
+                    }else {
+                        if (!((Comic)marker.getTag()).isVisited()){
+                        visitedButton.setVisibility(View.INVISIBLE);
+                        }else if (((Comic)marker.getTag()).isVisited() && !((Comic)marker.getTag()).isFavorite()){
+                            imageButton.setImageResource(R.drawable.seen_icon);
+                            imageButton.setColorFilter(Color.WHITE);
+                        }else {visitedButton.setVisibility(View.INVISIBLE);}
                     }
 
                     ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
@@ -340,19 +346,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 double longitude = addresses.get(0).getLongitude();
 
                 LatLng barLatLng = new LatLng(latitude, longitude);
-                float barKleur = 100;
-
-                if (bar.isRated()){
-                    barKleur = 60;
-                }
 
                 Marker barMarker = map.addMarker(
                         new MarkerOptions()
                                 .title(bar.getName())
                                 .snippet(barAddress)
                                 .position(barLatLng)
-                                .icon(BitmapDescriptorFactory.defaultMarker(barKleur))
                 );
+
+                if (bar.isRated()){
+                    int height = 120; int width = 100;
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_rated);
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    Bitmap favoMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    barMarker.setIcon(BitmapDescriptorFactory.fromBitmap(favoMarker));
+                }else{
+                    int height = 120; int width = 85;
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_bar);
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    Bitmap comicMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    barMarker.setIcon(BitmapDescriptorFactory.fromBitmap(comicMarker));
+                }
+
                 barMarker.setTag(bar);
                 barMarkers.add(barMarker);
             } catch (IOException e) {
@@ -366,19 +381,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         comicMarkers = new ArrayList<>();
         for (Comic comic : ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllComics()) {
             LatLng latLng = new LatLng(comic.getCoordinateLAT(), comic.getCoordinateLONG());
-            float kleur = 195;
-
-            if (comic.isFavorite()){
-                kleur = 0;
-            }
 
             Marker newMarker = map.addMarker(
                     new MarkerOptions()
                             .title(comic.getName() +" - "+ comic.getAuthor())
                             .snippet(comic.getImgID())
                             .position(latLng)
-                            .icon(BitmapDescriptorFactory.defaultMarker(kleur))
             );
+
+            if (comic.isFavorite()){
+                int height = 120; int width = 100;
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_favo);
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                Bitmap favoMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(favoMarker));
+            }else{
+                if (comic.isVisited()){
+                    int height = 120; int width = 100;
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_comic_seen);
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    Bitmap visitedMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(visitedMarker));
+                }else {
+                    int height = 120;
+                    int width = 85;
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_comic);
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    Bitmap comicMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                    newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(comicMarker));
+                }
+            }
+
             newMarker.setTag(comic);
             comicMarkers.add(newMarker);
         }

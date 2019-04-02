@@ -91,4 +91,17 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_adres"
         app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
         app:srcCompat="@drawable/like" />
+
+    <ImageButton
+        android:id="@+id/btn_visited"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/emptyBackground"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/btn_rating"
+        app:layout_constraintStart_toStartOf="@+id/iv_detail_image"
+        app:srcCompat="@drawable/seen_icon" />
 </android.support.constraint.ConstraintLayout>

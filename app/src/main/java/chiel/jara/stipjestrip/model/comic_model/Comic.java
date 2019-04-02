@@ -23,6 +23,7 @@ public class Comic implements Serializable {
     private double coordinateLONG, coordinateLAT;
     private String URLimg;
     private boolean isFavorite=false;
+    private boolean visited=false;
 
     public Comic() {
     }
@@ -118,6 +119,14 @@ public class Comic implements Serializable {
         isFavorite = favorite;
     }
 
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
     @Override
     public String toString() {
         return "Comic{" +
@@ -131,6 +140,7 @@ public class Comic implements Serializable {
                 ", coordinateLAT=" + coordinateLAT +
                 ", URLimg='" + URLimg + '\'' +
                 ", isFavorite=" + isFavorite +
+                ", visited=" + visited +
                 '}';
     }
 }

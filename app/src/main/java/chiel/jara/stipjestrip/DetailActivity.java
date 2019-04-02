@@ -45,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
     private Bar chosenBar;
     private ImageButton btnRating;
     private TextView tvRating;
+    private ImageButton btnVisited;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -58,6 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         tvYear=findViewById(R.id.tv_year);
         tvAdres=findViewById(R.id.tv_adres);
         btnRating=findViewById(R.id.btn_rating);
+        btnVisited=findViewById(R.id.btn_visited);
         //rating van bars
         tvRating=findViewById(R.id.tv_adres);
 
@@ -65,7 +67,6 @@ public class DetailActivity extends AppCompatActivity {
         chosenComic= (Comic) getIntent().getSerializableExtra("comic");
         if(chosenComic != null) {
             //CHECK IF COMIC IS FAVORITE
-            Log.i("is favorite?", String.valueOf(chosenComic.isFavorite()));
             if (!chosenComic.isFavorite()){
                 btnRating.setImageResource(R.drawable.like);
                 btnRating.setColorFilter(Color.rgb(4, 113, 64));
@@ -73,6 +74,11 @@ public class DetailActivity extends AppCompatActivity {
                 btnRating.setColorFilter(Color.RED);
             }
 
+            if (chosenComic != null){
+                if (chosenComic.isVisited()){
+                    btnVisited.setColorFilter(Color.WHITE);
+                }
+            }
             tvTitle.setText(chosenComic.getName());
             tvAuthor.setText(chosenComic.getAuthor());
             tvYear.setText(chosenComic.getYear());
@@ -84,7 +90,6 @@ public class DetailActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
             //BUTTON FAVORITE aan/uit zetten:
             btnRating.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,16 +99,30 @@ public class DetailActivity extends AppCompatActivity {
                         btnRating.setImageResource(R.drawable.like);
                         btnRating.setColorFilter(Color.RED);
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
-                        Log.i("update comic", String.valueOf(chosenComic.isFavorite()));
                     }else {
                         chosenComic.setFavorite(false);
                         btnRating.setImageResource(R.drawable.like);
                         btnRating.setColorFilter(Color.rgb(4, 113, 64));
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
-                        Log.i("update comic", String.valueOf(chosenComic.isFavorite()));
                     }
                 }
             });
+            //BUTTON VISITED aan/uit zetten:
+            btnVisited.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!chosenComic.isVisited()){
+                        chosenComic.setVisited(true);
+                        btnVisited.setColorFilter(Color.WHITE);
+                        ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
+                    }else{
+                        chosenComic.setVisited(false);
+                        btnVisited.setColorFilter(Color.BLACK);
+                        ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
+                    }
+                }
+            });
+
             //GEOCODER OM ADRES TE KRIJGEN UIT COORDINATEN
             Geocoder comicLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
             try {
@@ -121,6 +140,7 @@ public class DetailActivity extends AppCompatActivity {
         //for bar
         chosenBar = (Bar) getIntent().getSerializableExtra("bar");
         if(chosenBar != null) {
+            btnVisited.setColorFilter(Color.TRANSPARENT);
             //CHECK IF BAR IS RATED
             Log.i("is rated?", String.valueOf(chosenBar.isRated()));
             if (chosenBar.isRated()){

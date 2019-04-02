@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;

@@ -25,6 +25,7 @@ public class Bar implements Serializable {
     private String description;
     private boolean rated=false;
     private int rating;
+    private boolean visited=false;
 
     public Bar() {
     }
@@ -129,6 +130,14 @@ public class Bar implements Serializable {
         this.rating = rating;
     }
 
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
     @Override
     public String toString() {
         return "Bar{" +
@@ -143,6 +152,7 @@ public class Bar implements Serializable {
                 ", description='" + description + '\'' +
                 ", rated=" + rated +
                 ", rating=" + rating +
+                ", visited=" + visited +
                 '}';
     }
 }

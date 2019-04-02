@@ -44,4 +44,17 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_info_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/like" />
+
+    <ImageButton
+        android:id="@+id/ib_visited"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/emptyBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/tv_info_title"
+        app:layout_constraintStart_toStartOf="@+id/iv_info_image"
+        app:srcCompat="@drawable/seen_icon" />
 </android.support.constraint.ConstraintLayout>
