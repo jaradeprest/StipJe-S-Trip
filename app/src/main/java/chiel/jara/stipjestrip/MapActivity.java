@@ -64,6 +64,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     private final int REQUEST_LOCATION = 1; //constante variabele voor bij permissions
+    private Comic chosenComic;
     private GoogleMap map;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -104,6 +105,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         swiBars.setOnCheckedChangeListener(changeListener);
         context = this;
 
+        //From list to marker on map
+        chosenComic = (Comic) getIntent().getSerializableExtra("comic");
+        if (chosenComic != null){
+            LatLng latLng = new LatLng(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG());
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 60));
+        }
+        //TODO open infowindow
     }
 
     //Aanmaken Menu

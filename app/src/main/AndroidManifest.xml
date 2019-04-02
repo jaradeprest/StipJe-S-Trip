@@ -12,17 +12,21 @@
         android:icon="@mipmap/ic_launcher_garfield"
         android:roundIcon="@mipmap/ic_launcher_garfield_round"
         android:supportsRtl="true"
-        android:label= ""
+        android:label= "Stip je (S)trip"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ComicListActivity"></activity>
         <activity android:name=".BarListActivity"></activity>
         <activity
+            android:label= ""
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".DetailActivity"></activity>
         <activity
+            android:label= ""
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".AboutActivity"></activity>
         <activity
+            android:label= ""
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".MapActivity"></activity>
 

@@ -12,13 +12,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         tvYear=findViewById(R.id.tv_year);
         tvAdres=findViewById(R.id.tv_adres);
         btnRating=findViewById(R.id.btn_rating);
-        btnVisited=findViewById(R.id.btn_visited);
+        btnVisited=findViewById(R.id.btn_detail_visited);
         //rating van bars
         tvRating=findViewById(R.id.tv_adres);
 
@@ -73,15 +74,17 @@ public class DetailActivity extends AppCompatActivity {
             }else {btnRating.setImageResource(R.drawable.like);
                 btnRating.setColorFilter(Color.RED);
             }
-
+            //chekc if comic is visited
             if (chosenComic != null){
                 if (chosenComic.isVisited()){
                     btnVisited.setColorFilter(Color.WHITE);
-                }
+                }else{btnVisited.setColorFilter(Color.BLACK);}
             }
+
             tvTitle.setText(chosenComic.getName());
             tvAuthor.setText(chosenComic.getAuthor());
             tvYear.setText(chosenComic.getYear());
+
             //juiste afbeelding inladen
             try {
                 FileInputStream fis = getApplicationContext().openFileInput(chosenComic.getImgID());
@@ -140,9 +143,14 @@ public class DetailActivity extends AppCompatActivity {
         //for bar
         chosenBar = (Bar) getIntent().getSerializableExtra("bar");
         if(chosenBar != null) {
-            btnVisited.setColorFilter(Color.TRANSPARENT);
+            tvTitle.setText(chosenBar.getName());
+            String address = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() + ", " + chosenBar.getPostalcode() + " " + chosenBar.getCity();
+            String phoneWebsite = address + "\n" + chosenBar.getPhone() + "\n" + chosenBar.getWebsite();
+            tvAuthor.setText(phoneWebsite);
+            tvYear.setText(chosenBar.getDescription());
+            btnVisited.setVisibility(View.INVISIBLE);
+            Glide.with(this).load(R.drawable.tap).into(ivImage); //TODO loading images, use GLIDE!!! so low resolution phones can also handle the image
             //CHECK IF BAR IS RATED
-            Log.i("is rated?", String.valueOf(chosenBar.isRated()));
             if (chosenBar.isRated()){
                 btnRating.setImageResource(android.R.drawable.btn_star_big_on);
                 String stringRating = String.valueOf(chosenBar.getRating());
@@ -150,13 +158,6 @@ public class DetailActivity extends AppCompatActivity {
             }else {tvRating.setText("Give your rating by clicking on the star.");
                 btnRating.setImageResource(android.R.drawable.btn_star_big_off);
             }
-
-
-            tvTitle.setText(chosenBar.getName());
-            String address = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() + ", " + chosenBar.getPostalcode() + " " + chosenBar.getCity();
-            String phoneWebsite = address + "\n" + chosenBar.getPhone() + "\n" + chosenBar.getWebsite();
-            tvAuthor.setText(phoneWebsite);
-            tvYear.setText(chosenBar.getDescription());
             //BUTTON RATING :
             btnRating.setOnClickListener(new View.OnClickListener() {
                 @Override

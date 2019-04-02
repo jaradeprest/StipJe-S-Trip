@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import java.util.List;
 import chiel.jara.stipjestrip.DetailActivity;
 import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
+import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
 /**
  * Created By Chiel&Jara 03/2019
@@ -33,6 +35,44 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         private TextView tvName, tvAuthor;
         private ImageView ivComic;
         private ImageButton btnDetails;
+        private ImageButton btnLiked;
+        private ImageButton btnVisited;
+
+        private View.OnClickListener visitedListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context c = v.getContext();
+                int position = getAdapterPosition();
+                Comic visited = comics.get(position);
+                if (visited.isVisited()){
+                    visited.setVisited(false);
+                    btnVisited.setColorFilter(Color.rgb(127, 127, 127));
+                    ComicDatabase.getInstance(c).getMethodsComic().updateComic(visited);
+                }else {
+                    visited.setVisited(true);
+                    btnVisited.setColorFilter(Color.WHITE);
+                    ComicDatabase.getInstance(c).getMethodsComic().updateComic(visited);
+                }
+            }
+        };
+
+        private View.OnClickListener likedListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context c = v.getContext();
+                int position = getAdapterPosition();
+                Comic toLike = comics.get(position);
+                if (toLike.isFavorite()){
+                toLike.setFavorite(false);
+                btnLiked.setColorFilter(Color.rgb(127, 127, 127));
+                    ComicDatabase.getInstance(c).getMethodsComic().updateComic(toLike);
+                }else {
+                    toLike.setFavorite(true);
+                    btnLiked.setColorFilter(Color.RED);
+                    ComicDatabase.getInstance(c).getMethodsComic().updateComic(toLike);
+                }
+            }
+        };
 
         private View.OnClickListener detailListener = new View.OnClickListener() {
             @Override
@@ -46,6 +86,18 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             }
         };
 
+        /*private View.OnClickListener listListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context c = v.getContext();
+                Intent intent = new Intent(c, MapActivity.class);
+                int position = getAdapterPosition();
+                Comic toSeeOnMap = comics.get(position);
+                intent.putExtra("comic", toSeeOnMap);
+                c.startActivity(intent);
+            }
+        };*/ //TODO fix problem: going from list to map
+
         public ComicRowViewHolder (@NonNull View itemView){
             super(itemView);
             tvName=itemView.findViewById(R.id.tv_row_name);
@@ -53,8 +105,11 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             ivComic=itemView.findViewById(R.id.iv_row_image);
             btnDetails=itemView.findViewById(R.id.btn_detail);
             btnDetails.setOnClickListener(detailListener);
-
-            //TODO btnFavo toevoegen + aan/uit kunnen zetten
+            btnLiked=itemView.findViewById(R.id.btn_liked_list);
+            btnLiked.setOnClickListener(likedListener);
+            btnVisited=itemView.findViewById(R.id.btn_visited_list);
+            btnVisited.setOnClickListener(visitedListener);
+            //itemView.setOnClickListener(listListener);
         }
     }
 
@@ -86,6 +141,13 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (currentComic.isFavorite()){
+            comicRowViewHolder.btnLiked.setColorFilter(Color.RED);
+            }else {comicRowViewHolder.btnLiked.setColorFilter(Color.rgb(127, 127, 127));}
+        if (currentComic.isVisited()){
+                comicRowViewHolder.btnVisited.setColorFilter(Color.WHITE);
+            }else {comicRowViewHolder.btnVisited.setColorFilter(Color.rgb(127, 127, 127));}
+
     }
 
     @Override

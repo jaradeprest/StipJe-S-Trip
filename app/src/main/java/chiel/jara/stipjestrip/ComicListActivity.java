@@ -1,6 +1,7 @@
 package chiel.jara.stipjestrip;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,8 @@ public class ComicListActivity extends AppCompatActivity {
         rvComics.setLayoutManager(linearLayoutManager);
     }
 
+    //TODO click on listitem en get send to map => right pin
+
     //Aanmaken Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,5 +62,11 @@ public class ComicListActivity extends AppCompatActivity {
         }
     };
 
-    //TODO add favorite button to the list
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent reloadIntent = new Intent(this, ComicListActivity.class);
+        reloadIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(reloadIntent);
+    }
 }
