@@ -293,8 +293,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        //From list to marker on map => change camera on map
-        //From details to marker on map
+        //From comiclist to marker on map => change camera on map
+        //From comicdetails to marker on map
         chosenComic = (Comic) getIntent().getSerializableExtra("chosen");
         if (chosenComic != null) {
             LatLng latLng = new LatLng(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG());
@@ -310,7 +310,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-
+        //from barlist to marker on map
+        //from bardetails to marker on map
         chosenBar = (Bar) getIntent().getSerializableExtra("chosenBar");
         if (chosenBar != null) {
             Geocoder geocoder = new Geocoder(getApplicationContext());

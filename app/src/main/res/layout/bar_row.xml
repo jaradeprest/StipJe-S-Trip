@@ -28,7 +28,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 app:fontFamily="sans-serif-smallcaps"
-                app:layout_constraintEnd_toStartOf="@+id/btn_rated"
+                app:layout_constraintEnd_toStartOf="@+id/btn_barList_maps"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="testName" />
@@ -40,9 +40,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:textColor="@color/colorBackground"
                 app:fontFamily="sans-serif-smallcaps"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_barList_maps"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_bar"
                 tools:text="TestAdres 00, 0000 TestStad" />
@@ -54,9 +56,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:textColor="@color/colorBackground"
                 app:fontFamily="sans-serif-smallcaps"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_barList_rating"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_adress_bar"
                 tools:text="TestNummer" />
@@ -92,16 +96,33 @@
                 tools:text="Testbeschrijving" />
 
             <ImageButton
-                android:id="@+id/btn_rated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/btn_barList_maps"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:background="@color/emptyBackground"
+                android:background="@drawable/rounded_btn_blue"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/btn_star_big_off" />
+                app:srcCompat="@drawable/map" />
+
+            <Button
+                android:id="@+id/btn_barList_rating"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/rounded_btn_blue"
+                android:textColor="@color/colorBackground"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_website_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_barList_maps"
+                tools:text="test" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

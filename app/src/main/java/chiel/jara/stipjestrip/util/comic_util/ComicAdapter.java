@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chiel.jara.stipjestrip.DetailActivity;
@@ -115,7 +116,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
     }
 
     private List<Comic> comics, filteredComics;
-
     public ComicAdapter(List<Comic> comics){
         this.comics = comics;
         this.filteredComics = comics;
