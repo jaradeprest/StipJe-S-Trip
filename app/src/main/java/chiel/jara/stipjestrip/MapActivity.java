@@ -65,6 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private final int REQUEST_LOCATION = 1; //constante variabele voor bij permissions
     private Comic chosenComic;
+    private Bar chosenBar;
     private GoogleMap map;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -104,14 +105,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         swiStrip.setOnCheckedChangeListener(changeListener);
         swiBars.setOnCheckedChangeListener(changeListener);
         context = this;
-
-        //From list to marker on map
-        chosenComic = (Comic) getIntent().getSerializableExtra("comic");
-        if (chosenComic != null){
-            LatLng latLng = new LatLng(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG());
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 60));
-        }
-        //TODO open infowindow
     }
 
     //Aanmaken Menu
@@ -299,6 +292,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        //From list to marker on map => change camera on map
+        //From details to marker on map
+        chosenComic = (Comic) getIntent().getSerializableExtra("chosen");
+        if (chosenComic != null) {
+            LatLng latLng = new LatLng(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG());
+            CameraPosition.Builder updateBuilder = new CameraPosition.Builder();
+            CameraPosition updatePosition = updateBuilder.target(latLng).zoom(18).tilt(60).build();
+            CameraUpdate update = CameraUpdateFactory.newCameraPosition(updatePosition);
+            map.animateCamera(update);
+            //open infowindow of chosenComic
+            for (Marker chosenMarker : comicMarkers) {
+                Comic comic = (Comic) chosenMarker.getTag();
+                if (comic.getName().equals(chosenComic.getName())) {
+                    chosenMarker.showInfoWindow();
+                }
+            }
+        }
+
+        chosenBar = (Bar) getIntent().getSerializableExtra("chosenBar");
+        if (chosenBar != null) {
+            Geocoder geocoder = new Geocoder(getApplicationContext());
+            String barAddress = chosenBar.getStreet() + " " + chosenBar.getHouseNumber() + ", " + chosenBar.getPostalcode() + " " + chosenBar.getCity();
+            List<Address> addresses;
+            try {
+                addresses = geocoder.getFromLocationName(barAddress, 1);
+                double latitude = addresses.get(0).getLatitude();
+                double longitude = addresses.get(0).getLongitude();
+                LatLng barLatLong = new LatLng(latitude, longitude);
+                CameraPosition.Builder barBuilder = new CameraPosition.Builder();
+                CameraPosition barPosition = barBuilder.target(barLatLong).zoom(18).tilt(60).build();
+                CameraUpdate barUpdate = CameraUpdateFactory.newCameraPosition(barPosition);
+                map.animateCamera(barUpdate);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //open infowindow of chosenComic
+            for (Marker chosenMarker : barMarkers) {
+                Bar bar = (Bar) chosenMarker.getTag();
+                if (bar.getName().equals(chosenBar.getName())) {
+                    chosenMarker.showInfoWindow();
+                }
+            }
+        }
         startLocationUpdates();
     }
 

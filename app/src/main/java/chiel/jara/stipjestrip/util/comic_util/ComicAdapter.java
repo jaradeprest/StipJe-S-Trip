@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chiel.jara.stipjestrip.DetailActivity;
+import chiel.jara.stipjestrip.MapActivity;
 import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
@@ -86,17 +87,17 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             }
         };
 
-        /*private View.OnClickListener listListener = new View.OnClickListener() {
+        private View.OnClickListener listListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context c = v.getContext();
                 Intent intent = new Intent(c, MapActivity.class);
                 int position = getAdapterPosition();
                 Comic toSeeOnMap = comics.get(position);
-                intent.putExtra("comic", toSeeOnMap);
+                intent.putExtra("chosen", toSeeOnMap);
                 c.startActivity(intent);
             }
-        };*/ //TODO fix problem: going from list to map
+        };
 
         public ComicRowViewHolder (@NonNull View itemView){
             super(itemView);
@@ -109,7 +110,7 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
             btnLiked.setOnClickListener(likedListener);
             btnVisited=itemView.findViewById(R.id.btn_visited_list);
             btnVisited.setOnClickListener(visitedListener);
-            //itemView.setOnClickListener(listListener);
+            ivComic.setOnClickListener(listListener);
         }
     }
 

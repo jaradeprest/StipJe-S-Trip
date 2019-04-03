@@ -6,4 +6,5 @@
     <color name="colorAccentSeeThrough">#C6C0A037</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="emptyBackground">#00FFFFFF</color>
+    <color name="colorPrimarySeeThrough">#DE6C9BB5</color>
 </resources>

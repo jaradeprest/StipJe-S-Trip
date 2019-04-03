@@ -3,6 +3,7 @@ package chiel.jara.stipjestrip;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -47,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton btnRating;
     private TextView tvRating;
     private ImageButton btnVisited;
+    private ImageButton btnMaps;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -61,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         tvAdres=findViewById(R.id.tv_adres);
         btnRating=findViewById(R.id.btn_rating);
         btnVisited=findViewById(R.id.btn_detail_visited);
+        btnMaps=findViewById(R.id.btn_detail_maps);
         //rating van bars
         tvRating=findViewById(R.id.tv_adres);
 
@@ -70,7 +73,7 @@ public class DetailActivity extends AppCompatActivity {
             //CHECK IF COMIC IS FAVORITE
             if (!chosenComic.isFavorite()){
                 btnRating.setImageResource(R.drawable.like);
-                btnRating.setColorFilter(Color.rgb(4, 113, 64));
+                btnRating.setColorFilter(Color.rgb(127,127,127));
             }else {btnRating.setImageResource(R.drawable.like);
                 btnRating.setColorFilter(Color.RED);
             }
@@ -78,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
             if (chosenComic != null){
                 if (chosenComic.isVisited()){
                     btnVisited.setColorFilter(Color.WHITE);
-                }else{btnVisited.setColorFilter(Color.BLACK);}
+                }else{btnVisited.setColorFilter(Color.rgb(127,127,127));}
             }
 
             tvTitle.setText(chosenComic.getName());
@@ -105,7 +108,7 @@ public class DetailActivity extends AppCompatActivity {
                     }else {
                         chosenComic.setFavorite(false);
                         btnRating.setImageResource(R.drawable.like);
-                        btnRating.setColorFilter(Color.rgb(4, 113, 64));
+                        btnRating.setColorFilter(Color.rgb(127,127,127));
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
                     }
                 }
@@ -120,9 +123,19 @@ public class DetailActivity extends AppCompatActivity {
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
                     }else{
                         chosenComic.setVisited(false);
-                        btnVisited.setColorFilter(Color.BLACK);
+                        btnVisited.setColorFilter(Color.rgb(127,127,127));
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateComic(chosenComic);
                     }
+                }
+            });
+            //Listener to get from detailpage to map
+            btnMaps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("chosen", chosenComic);
+                    context.startActivity(intent);
                 }
             });
 
@@ -149,7 +162,7 @@ public class DetailActivity extends AppCompatActivity {
             tvAuthor.setText(phoneWebsite);
             tvYear.setText(chosenBar.getDescription());
             btnVisited.setVisibility(View.INVISIBLE);
-            Glide.with(this).load(R.drawable.tap).into(ivImage); //TODO loading images, use GLIDE!!! so low resolution phones can also handle the image
+            Glide.with(this).load(R.drawable.tap).into(ivImage);
             //CHECK IF BAR IS RATED
             if (chosenBar.isRated()){
                 btnRating.setImageResource(android.R.drawable.btn_star_big_on);
@@ -167,6 +180,16 @@ public class DetailActivity extends AppCompatActivity {
                         ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateBar(chosenBar);
                         btnRating.setImageResource(android.R.drawable.btn_star_big_on);
                     }else{ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().updateBar(chosenBar);}
+                }
+            });
+            //Listener to get from detailpage to map
+            btnMaps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, MapActivity.class);
+                    intent.putExtra("chosenBar", chosenBar);
+                    context.startActivity(intent);
                 }
             });
         }
