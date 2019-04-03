@@ -1,12 +1,17 @@
 package chiel.jara.stipjestrip;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -26,6 +31,7 @@ public class LaunchActivity extends AppCompatActivity {
     private ProgressBar pbLoading;
     private ComicHandler myComicHandler;
     private BarHandler myBarHandler;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,24 @@ public class LaunchActivity extends AppCompatActivity {
         myBarHandler = new BarHandler(getApplicationContext());
         myComicHandler = new ComicHandler( getApplicationContext(), pbLoading);
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
-        downloadData();
+
+        //downloadData();
+
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        for (Network network : connMgr.getAllNetworks()) {
+            NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                downloadData();
+                return;
+            }
+            else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                downloadData();
+                return;
+            }
+        }
+        Toast.makeText(getApplicationContext(), "NO Connection! ", Toast.LENGTH_LONG).show();
     }
 
     private void downloadData(){
@@ -53,34 +76,32 @@ public class LaunchActivity extends AppCompatActivity {
                     Request barRequest = new Request.Builder().url("https://opendata.visitflanders.org/tourist/reca/beer_bars.json").get().build();
                     Response barResponse = bars.newCall(barRequest).execute();
 
-                    if (barResponse.body() != null){
+                    if (barResponse.body() != null) {
                         String barResponseBody = barResponse.body().string();
                         Message barMessage = new Message();
                         barMessage.obj = barResponseBody;
                         myBarHandler.sendMessage(barMessage);
                     }
 
-                    if (response.body() != null){
+                    if (response.body() != null) {
                         String responsebodyText = response.body().string();
                         Message message = new Message();
                         message.obj = responsebodyText;
                         //STRING DOORSTUREN NAAR HANDLER
                         myComicHandler.sendMessage(message);
                     }
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
         backThread.start();
 
-        Log.i("test", "downloadData: " + pbLoading.getProgress());
         if (pbLoading.getProgress() == pbLoading.getMax()) {
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-
     }
 
 }

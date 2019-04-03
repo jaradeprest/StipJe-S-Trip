@@ -124,7 +124,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
-        List<Bar> bars = ComicDatabase.getInstance(context).getMethodsComic().getAllBars();
+        //List<Bar> bars = ComicDatabase.getInstance(context).getMethodsComic().getAllBars();
         @Override
         public boolean onQueryTextSubmit(String query) {
             for (Marker comicMarker : comicMarkers) {
