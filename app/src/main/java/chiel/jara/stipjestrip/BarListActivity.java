@@ -43,7 +43,6 @@ public class BarListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
         searchView.setOnQueryTextListener(textListener);
-
         return super.onCreateOptionsMenu(menu);
     }
 

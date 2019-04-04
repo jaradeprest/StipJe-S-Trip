@@ -83,7 +83,6 @@ public class DetailActivity extends AppCompatActivity {
                     btnVisited.setColorFilter(Color.WHITE);
                 }else{btnVisited.setColorFilter(Color.rgb(127,127,127));}
             }
-
             tvTitle.setText(chosenComic.getName());
             tvAuthor.setText(chosenComic.getAuthor());
             tvYear.setText(chosenComic.getYear());
@@ -152,7 +151,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-
         //for bar
         chosenBar = (Bar) getIntent().getSerializableExtra("bar");
         if(chosenBar != null) {
@@ -196,6 +194,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //creating an alerdialog to give your rating to the bar
     private void showRatingDialog(final Context context){
         //created a layout to use in alertDialog
         View ratingView = getLayoutInflater().inflate(R.layout.rating_window_bar, null, false);

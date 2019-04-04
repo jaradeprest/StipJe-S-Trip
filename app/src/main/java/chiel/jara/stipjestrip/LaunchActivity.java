@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 
-import chiel.jara.stipjestrip.util.ComicHandler;
+import chiel.jara.stipjestrip.util.comic_util.ComicHandler;
 import chiel.jara.stipjestrip.util.bar_util.BarHandler;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,7 +32,6 @@ public class LaunchActivity extends AppCompatActivity {
     private ProgressBar pbLoading;
     private ComicHandler myComicHandler;
     private BarHandler myBarHandler;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +45,23 @@ public class LaunchActivity extends AppCompatActivity {
         myComicHandler = new ComicHandler( getApplicationContext(), pbLoading);
         Glide.with(getApplicationContext()).load(R.drawable.marsupilami).into(ivGif);//imported glide dependencies in build.gradle
 
-        //downloadData();
-
         ConnectivityManager connMgr =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        for (Network network : connMgr.getAllNetworks()) {
-            NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                downloadData();
-                return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            for (Network network : connMgr.getAllNetworks()) {
+                NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    downloadData();
+                    return;
+                }
+                else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    downloadData();
+                    return;
+                }
             }
-            else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                downloadData();
-                return;
-            }
-        }
-        Toast.makeText(getApplicationContext(), "NO Connection! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No internet connection!", Toast.LENGTH_LONG).show();
+        }else{downloadData();}
     }
 
     private void downloadData(){
@@ -103,7 +103,6 @@ public class LaunchActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
 //DOCUMENTATION: how to play the gif : https://stackoverflow.com/questions/20416383/how-to-play-gif-in-android
 //DOCUMENTATION: gif marsupilami : http://img.over-blog-kiwi.com/0/98/03/83/20150614/ob_174990_mdg-4512-0021-541.gif

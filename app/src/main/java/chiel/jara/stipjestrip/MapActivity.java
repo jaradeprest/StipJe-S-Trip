@@ -233,6 +233,64 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
+    //making an infoWindowAdapter
+    GoogleMap.InfoWindowAdapter infoWindowAdapter = new GoogleMap.InfoWindowAdapter() {
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+        @Override
+        public View getInfoContents(Marker marker) {
+            //FOR BAR
+            if (marker.getTag() instanceof Bar) {
+                View myContentBarView = getLayoutInflater().inflate(R.layout.info_window_map_bar, null, false);
+                TextView tvBarName = myContentBarView.findViewById(R.id.tv_marker_bar_name);
+                tvBarName.setText(marker.getTitle());
+                TextView tvBarAddress = myContentBarView.findViewById(R.id.tv_marker_bar_address);
+                tvBarAddress.setText(marker.getSnippet());
+                TextView tvRating = myContentBarView.findViewById(R.id.tv_rating);
+                if (((Bar) marker.getTag()).isRated()){
+                    String rating = String.valueOf(((Bar) marker.getTag()).getRating());
+                    tvRating.setText("Rating: "+ rating + " / 10");
+                }else{tvRating.setVisibility(View.INVISIBLE);}
+                return myContentBarView;
+            } else {
+                //FOR COMIC
+                View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
+                TextView textView = myContentView.findViewById(R.id.tv_info_title);
+                textView.setText(marker.getTitle());
+                //show heart when comic is favorite
+                ImageButton imageButton = myContentView.findViewById(R.id.ib_favo);
+                ImageButton visitedButton = myContentView.findViewById(R.id.ib_visited);
+                if (((Comic) marker.getTag()).isFavorite()){
+                    imageButton.setColorFilter(Color.RED);
+                }else{imageButton.setVisibility(View.INVISIBLE);
+                }
+
+                if (((Comic)marker.getTag()).isVisited()){
+                    visitedButton.setColorFilter(Color.WHITE);
+                }else {
+                    if (!((Comic)marker.getTag()).isVisited()){
+                        visitedButton.setVisibility(View.INVISIBLE);
+                    }else if (((Comic)marker.getTag()).isVisited() && !((Comic)marker.getTag()).isFavorite()){
+                        imageButton.setImageResource(R.drawable.seen_icon);
+                        imageButton.setColorFilter(Color.WHITE);
+                    }else {visitedButton.setVisibility(View.INVISIBLE);}
+                }
+
+                ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
+                try {
+                    FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
+                    Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                    imageView.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return myContentView;
+            }
+        }
+    };
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         map = googleMap;
@@ -240,64 +298,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setUpCamera();
         addMarkers();
         map.setOnInfoWindowClickListener(this);
-        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-                    //FOR BAR
-                if (marker.getTag() instanceof Bar) {
-                    View myContentBarView = getLayoutInflater().inflate(R.layout.info_window_map_bar, null, false);
-                    TextView tvBarName = myContentBarView.findViewById(R.id.tv_marker_bar_name);
-                    tvBarName.setText(marker.getTitle());
-                    TextView tvBarAddress = myContentBarView.findViewById(R.id.tv_marker_bar_address);
-                    tvBarAddress.setText(marker.getSnippet());
-                    TextView tvRating = myContentBarView.findViewById(R.id.tv_rating);
-                    if (((Bar) marker.getTag()).isRated()){
-                    String rating = String.valueOf(((Bar) marker.getTag()).getRating());
-                    tvRating.setText("Rating: "+ rating + " / 10");
-                    }else{tvRating.setVisibility(View.INVISIBLE);}
-                    return myContentBarView;
-                } else {
-                    //FOR COMIC
-                    View myContentView = getLayoutInflater().inflate(R.layout.info_window_map, null, false);
-                    TextView textView = myContentView.findViewById(R.id.tv_info_title);
-                    textView.setText(marker.getTitle());
-
-                    //show heart when comic is favorite
-                    ImageButton imageButton = myContentView.findViewById(R.id.ib_favo);
-                    ImageButton visitedButton = myContentView.findViewById(R.id.ib_visited);
-                    if (((Comic) marker.getTag()).isFavorite()){
-                        imageButton.setColorFilter(Color.RED);
-                    }else{imageButton.setVisibility(View.INVISIBLE);
-                    }
-
-                    if (((Comic)marker.getTag()).isVisited()){
-                        visitedButton.setColorFilter(Color.WHITE);
-                    }else {
-                        if (!((Comic)marker.getTag()).isVisited()){
-                        visitedButton.setVisibility(View.INVISIBLE);
-                        }else if (((Comic)marker.getTag()).isVisited() && !((Comic)marker.getTag()).isFavorite()){
-                            imageButton.setImageResource(R.drawable.seen_icon);
-                            imageButton.setColorFilter(Color.WHITE);
-                        }else {visitedButton.setVisibility(View.INVISIBLE);}
-                    }
-
-                    ImageView imageView = myContentView.findViewById(R.id.iv_info_image);
-                    try {
-                        FileInputStream fis = getApplicationContext().openFileInput(marker.getSnippet());
-                        Bitmap bitmap = BitmapFactory.decodeStream(fis);
-                        imageView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    return myContentView;
-                }
-            }
-        });
+        map.setInfoWindowAdapter(infoWindowAdapter);
 
         //From comiclist to marker on map => change camera on map
         //From comicdetails to marker on map
@@ -316,6 +317,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
+
         //from barlist to marker on map
         //from bardetails to marker on map
         chosenBar = (Bar) getIntent().getSerializableExtra("chosenBar");
@@ -359,26 +361,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    //SHOW MAP ;
+    //SHOW MAP :
     private void setUpCamera() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
+        //if we can use your location => zoom in to USER_LOCATION on map
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location myLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
             if (myLocation != null){
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 15));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 15)); //zoom to location
             }else {
                 //backup for when myLocation == null
                 CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
-                CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build();
+                CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build(); //zoom to Brussels
                 CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
                 map.animateCamera(updateBackUp);
             }
         }else{
             //backup for when using myLocation is not allowed
             CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
-            CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build();
+            CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build(); //zoom to Brussels
             CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
             map.animateCamera(updateBackUp);
         }
@@ -401,30 +404,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 addresses = geocoder.getFromLocationName(barAddress, 1);
                 double latitude = addresses.get(0).getLatitude();
                 double longitude = addresses.get(0).getLongitude();
-
                 LatLng barLatLng = new LatLng(latitude, longitude);
-
                 Marker barMarker = map.addMarker(
                         new MarkerOptions()
                                 .title(bar.getName())
                                 .snippet(barAddress)
                                 .position(barLatLng)
                 );
-
+                int height = 120;
                 if (bar.isRated()){
-                    int height = 120; int width = 100;
+                    int width = 100;
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_rated);
                     Bitmap bitmap = bitmapDrawable.getBitmap();
                     Bitmap favoMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
                     barMarker.setIcon(BitmapDescriptorFactory.fromBitmap(favoMarker));
                 }else{
-                    int height = 120; int width = 85;
+                    int width = 85;
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_bar);
                     Bitmap bitmap = bitmapDrawable.getBitmap();
                     Bitmap comicMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
                     barMarker.setIcon(BitmapDescriptorFactory.fromBitmap(comicMarker));
                 }
-
                 barMarker.setTag(bar);
                 barMarkers.add(barMarker);
             } catch (IOException e) {
@@ -445,22 +445,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .snippet(comic.getImgID())
                             .position(latLng)
             );
-
+            int height = 120;
             if (comic.isFavorite()){
-                int height = 120; int width = 100;
+                int width = 100;
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_favo);
                 Bitmap bitmap = bitmapDrawable.getBitmap();
                 Bitmap favoMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
                 newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(favoMarker));
             }else{
                 if (comic.isVisited()){
-                    int height = 120; int width = 100;
+                    int width = 100;
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_comic_seen);
                     Bitmap bitmap = bitmapDrawable.getBitmap();
                     Bitmap visitedMarker = Bitmap.createScaledBitmap(bitmap, width, height, false);
                     newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(visitedMarker));
                 }else {
-                    int height = 120;
                     int width = 85;
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.marker_comic);
                     Bitmap bitmap = bitmapDrawable.getBitmap();
@@ -468,12 +467,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     newMarker.setIcon(BitmapDescriptorFactory.fromBitmap(comicMarker));
                 }
             }
-
             newMarker.setTag(comic);
             comicMarkers.add(newMarker);
         }
     }
-
 
     @SuppressLint("MissingPermission")
     @Override
@@ -503,8 +500,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 detailIntent.putExtra("bar", (Bar) marker.getTag());
                 startActivity(detailIntent);
             }
-    }
-
+        }
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -516,12 +512,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             addComicMarkers();
         }
     }
-
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
     }
 }
+
 //DOCUMENTATION: how to zoom on current location : https://stackoverflow.com/questions/18425141/android-google-maps-api-v2-zoom-to-current-location
 //DOCUMENTATION: how to click on marker : https://stackoverflow.com/questions/14226453/google-maps-api-v2-how-to-make-markers-clickable   https://blog.fossasia.org/marker-click-management-in-android-google-map-api-version-2/   https://stackoverflow.com/questions/39446198/how-to-use-onmarkerclick-to-open-a-new-activity-for-google-map-android-api
 //DOCUMENTATION: how to change infowindow of marker : https://stackoverflow.com/questions/21678545/how-to-change-info-window-custom-position-in-google-map-v2-android   https://mobikul.com/android-setting-custom-info-window-google-map-marker/   https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMap.InfoWindowAdapter

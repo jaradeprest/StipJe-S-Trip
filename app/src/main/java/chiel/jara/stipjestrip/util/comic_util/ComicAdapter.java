@@ -46,6 +46,7 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
                 Context c = v.getContext();
                 int position = getAdapterPosition();
                 Comic visited = comics.get(position);
+
                 if (visited.isVisited()){
                     visited.setVisited(false);
                     btnVisited.setColorFilter(Color.rgb(127, 127, 127));
@@ -69,7 +70,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
                 toLike.setFavorite(false);
                 btnLiked.setColorFilter(Color.rgb(127, 127, 127));
                     ComicDatabase.getInstance(c).getMethodsComic().updateComic(toLike);
-
                     int pos = getAdapterPosition();
                     Comic delComic = filteredComics.get(pos);
                     filteredComics.remove(delComic);
@@ -185,7 +185,6 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredComics;
-
                 return filterResults;
             }
 

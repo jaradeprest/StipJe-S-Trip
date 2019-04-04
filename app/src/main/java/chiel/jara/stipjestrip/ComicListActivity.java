@@ -36,18 +36,12 @@ public class ComicListActivity extends AppCompatActivity {
         rvComics.setLayoutManager(linearLayoutManager);
     }
 
-    //TODO click on listitem en get send to map => right pin
-
-
-
-
     //Aanmaken Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.mi_search).getActionView();
         searchView.setOnQueryTextListener(textListener);
-
         return super.onCreateOptionsMenu(menu);
     }
 

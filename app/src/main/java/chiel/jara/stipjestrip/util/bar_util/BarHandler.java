@@ -89,8 +89,6 @@ public class BarHandler extends Handler {
                 } else {
                     description = "No desciption available";
                 }
-
-
                 Bar currentBar = new Bar(name, street, houseNumber, postalCode, cityName, phone, website, description);
 
                 boolean barExist = false;
@@ -103,7 +101,6 @@ public class BarHandler extends Handler {
                 if (!barExist) {
                     ComicDatabase.getInstance(context).getMethodsComic().addBar(currentBar);
                 }
-
                 index++;
             }
         } catch (JSONException e) {

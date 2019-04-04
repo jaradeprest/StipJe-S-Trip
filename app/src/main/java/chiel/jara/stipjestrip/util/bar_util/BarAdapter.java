@@ -111,10 +111,8 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filteredBars;
-
                 return filterResults;
             }
-
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 filteredBars = (ArrayList<Bar>) results.values;

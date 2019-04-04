@@ -1,10 +1,11 @@
-package chiel.jara.stipjestrip.util;
+package chiel.jara.stipjestrip.util.comic_util;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ProgressBar;
@@ -23,8 +24,6 @@ import chiel.jara.stipjestrip.MapActivity;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class ComicHandler extends Handler {
 
     private Context context;
@@ -39,13 +38,12 @@ public class ComicHandler extends Handler {
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
         String data = (String) msg.obj;
-        int index = 0;
 
         try {
             JSONObject rootObject = new JSONObject(data);
             JSONArray records = rootObject.getJSONArray("records");
             int aantalComics = records.length();
-            index = 0;
+            int index = 0;
             while (index<aantalComics){
                 JSONObject currentRecord = records.getJSONObject(index);//=huidige rij
                 JSONObject fields = currentRecord.getJSONObject("fields");//=wat zit er in de rij?
@@ -105,9 +103,10 @@ public class ComicHandler extends Handler {
                 if (!comicExist) {
                     ComicDatabase.getInstance(context).getMethodsComic().addComic(currentComic);
                 }
-
                 index++;
-                progressBar.setProgress(index);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    progressBar.setProgress(index, true);
+                }else{progressBar.setProgress(index);}
             }
         }catch (JSONException e){
             e.printStackTrace();
@@ -122,12 +121,10 @@ public class ComicHandler extends Handler {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
-
     }
 
     //afb downloaden
     private static class DownloadImageTask extends AsyncTask<String, Void, String>{
-
         private String name;
         private WeakReference<Context> contextReference;
 
@@ -142,13 +139,10 @@ public class ComicHandler extends Handler {
                 InputStream inputStream = new URL(strings[0]).openStream();    // Download Image from URL
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
                 inputStream.close();
-
                 FileOutputStream foStream = contextReference.get().openFileOutput(name+".jpg", Context.MODE_PRIVATE);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, foStream);
                 foStream.close();
-
                 return name+".jpg";
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
