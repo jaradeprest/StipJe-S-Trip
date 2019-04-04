@@ -117,14 +117,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public SearchView.OnQueryTextListener textListener = new SearchView.OnQueryTextListener() {
-        //List<Bar> bars = ComicDatabase.getInstance(context).getMethodsComic().getAllBars();
         @Override
         public boolean onQueryTextSubmit(String query) {
             for (Marker comicMarker : comicMarkers) {
                 Comic comic = (Comic) comicMarker.getTag();
                 if (comic.getName().equalsIgnoreCase(query)) {
                     CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
-                    CameraPosition backUpPosition = backUpBuilder.target(new LatLng(comic.getCoordinateLAT(),comic.getCoordinateLONG())).zoom(18).tilt(60).build();
+                    CameraPosition backUpPosition = backUpBuilder.target(new LatLng(comic.getCoordinateLAT(),comic.getCoordinateLONG())).zoom(18).build();
                     CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
                     map.animateCamera(updateBackUp);
                    comicMarker.showInfoWindow();
@@ -144,7 +143,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         double longitude = addresses.get(0).getLongitude();
 
                         CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
-                        CameraPosition backUpPosition = backUpBuilder.target(new LatLng(latitude,longitude)).zoom(18).tilt(60).build();
+                        CameraPosition backUpPosition = backUpBuilder.target(new LatLng(latitude,longitude)).zoom(18).build();
                         CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
                         map.animateCamera(updateBackUp);
                         barMarker.showInfoWindow();
@@ -300,13 +299,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        //From list to marker on map => change camera on map
-        //From details to marker on map
+        //From comiclist to marker on map => change camera on map
+        //From comicdetails to marker on map
         chosenComic = (Comic) getIntent().getSerializableExtra("chosen");
         if (chosenComic != null) {
             LatLng latLng = new LatLng(chosenComic.getCoordinateLAT(), chosenComic.getCoordinateLONG());
             CameraPosition.Builder updateBuilder = new CameraPosition.Builder();
-            CameraPosition updatePosition = updateBuilder.target(latLng).zoom(18).tilt(60).build();
+            CameraPosition updatePosition = updateBuilder.target(latLng).zoom(18).build();
             CameraUpdate update = CameraUpdateFactory.newCameraPosition(updatePosition);
             map.animateCamera(update);
             //open infowindow of chosenComic
@@ -317,7 +316,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-
+        //from barlist to marker on map
+        //from bardetails to marker on map
         chosenBar = (Bar) getIntent().getSerializableExtra("chosenBar");
         if (chosenBar != null) {
             Geocoder geocoder = new Geocoder(getApplicationContext());
@@ -329,7 +329,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 double longitude = addresses.get(0).getLongitude();
                 LatLng barLatLong = new LatLng(latitude, longitude);
                 CameraPosition.Builder barBuilder = new CameraPosition.Builder();
-                CameraPosition barPosition = barBuilder.target(barLatLong).zoom(18).tilt(60).build();
+                CameraPosition barPosition = barBuilder.target(barLatLong).zoom(18).build();
                 CameraUpdate barUpdate = CameraUpdateFactory.newCameraPosition(barPosition);
                 map.animateCamera(barUpdate);
             } catch (IOException e) {
@@ -368,15 +368,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Location myLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
             if (myLocation != null){
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), 15));
+            }else {
+                //backup for when myLocation == null
+                CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
+                CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build();
+                CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
+                map.animateCamera(updateBackUp);
             }
         }else{
+            //backup for when using myLocation is not allowed
             CameraPosition.Builder backUpBuilder = new CameraPosition.Builder();
-            CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(18).tilt(60).build();
+            CameraPosition backUpPosition = backUpBuilder.target(new LatLng(50.848712,4.347446)).zoom(15).build();
             CameraUpdate updateBackUp = CameraUpdateFactory.newCameraPosition(backUpPosition);
             map.animateCamera(updateBackUp);
         }
-
-
     }
 
     private void addMarkers() {

@@ -38,6 +38,9 @@ public class ComicListActivity extends AppCompatActivity {
 
     //TODO click on listitem en get send to map => right pin
 
+
+
+
     //Aanmaken Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

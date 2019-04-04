@@ -30,6 +30,13 @@ public class BarListActivity extends AppCompatActivity {
         rvBars.setLayoutManager(linearLayoutManager);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myBarAdapter = new BarAdapter(ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getAllBars());
+        rvBars.setAdapter(myBarAdapter);
+    }
+
     //Aanmaken Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,17 +1,22 @@
 package chiel.jara.stipjestrip.util.bar_util;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import chiel.jara.stipjestrip.MapActivity;
 import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.bar_model.Bar;
 /**
@@ -21,7 +26,20 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
 
     public class BarRowViewHolder extends RecyclerView.ViewHolder{
         private TextView tvName, tvAdress, tvPhone, tvWebsite, tvDescription;
-        private ImageButton btnRating;
+        private ImageButton btnMap;
+        private Button btnRating;
+
+        private View.OnClickListener toMapListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MapActivity.class);
+                int position = getAdapterPosition();
+                Bar barToSee = bars.get(position);
+                intent.putExtra("chosenBar", barToSee);
+                context.startActivity(intent);
+            }
+        };
 
         public BarRowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -30,7 +48,9 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
             tvPhone=itemView.findViewById(R.id.tv_phone_bar);
             tvWebsite=itemView.findViewById(R.id.tv_website_bar);
             tvDescription=itemView.findViewById(R.id.tv_description_bar);
-            btnRating=itemView.findViewById(R.id.btn_rating);
+            btnMap=itemView.findViewById(R.id.btn_barList_maps);
+            btnMap.setOnClickListener(toMapListener);
+            btnRating=itemView.findViewById(R.id.btn_barList_rating);
         }
     }
 
@@ -49,26 +69,22 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BarRowViewHolder barRowViewHolder, final int i) {
-        final Bar currentBar = filteredBars.get(i);
+    public void onBindViewHolder(@NonNull final BarRowViewHolder barRowViewHolder,  int i) {
+        Collections.sort(filteredBars, Bar.BY_NAME_ALPHABETICAL);
+        Bar currentBar = filteredBars.get(i);
         barRowViewHolder.tvName.setText(currentBar.getName());
         barRowViewHolder.tvAdress.setText(currentBar.getStreet()+" "+currentBar.getHouseNumber()+", "+currentBar.getPostalcode()+" "+currentBar.getCity());
         barRowViewHolder.tvPhone.setText(currentBar.getPhone());
         barRowViewHolder.tvWebsite.setText(currentBar.getWebsite());
         barRowViewHolder.tvDescription.setText(currentBar.getDescription());
-
-        /*if (currentBar.isRated()){
-            barRowViewHolder.btnRating.setImageResource(android.R.drawable.star_big_on);
+        //if currentBar = rated, show rating in button
+        if (currentBar.isRated()){
+            String rating = String.valueOf(currentBar.getRating())+"/10";
+            barRowViewHolder.btnRating.setText(rating);
+            barRowViewHolder.btnRating.setVisibility(View.VISIBLE);
+        }else {
+            barRowViewHolder.btnRating.setVisibility(View.INVISIBLE);
         }
-        barRowViewHolder.btnRating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                barRowViewHolder.btnRating.setImageResource(android.R.drawable.btn_star_big_on);
-                //TODO alertdialog vanuit list
-                //TODO rating weergeven in list
-            }
-        });*/
-
     }
 
     @Override
@@ -107,3 +123,5 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
         };
     }
 }
+
+//DOCUMENTATION: how to sort list by a-z: https://www.youtube.com/watch?v=AREhvfVGxlo

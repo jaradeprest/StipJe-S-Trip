@@ -163,6 +163,7 @@ public class DetailActivity extends AppCompatActivity {
             tvYear.setText(chosenBar.getDescription());
             btnVisited.setVisibility(View.INVISIBLE);
             Glide.with(this).load(R.drawable.tap).into(ivImage);
+
             //CHECK IF BAR IS RATED
             if (chosenBar.isRated()){
                 btnRating.setImageResource(android.R.drawable.btn_star_big_on);
