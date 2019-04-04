@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -161,6 +162,7 @@ public class DetailActivity extends AppCompatActivity {
             tvYear.setText(chosenBar.getDescription());
             btnVisited.setVisibility(View.INVISIBLE);
             Glide.with(this).load(R.drawable.tap).into(ivImage);
+            btnRating.setPadding(5,5,5,8);
 
             //CHECK IF BAR IS RATED
             if (chosenBar.isRated()){
