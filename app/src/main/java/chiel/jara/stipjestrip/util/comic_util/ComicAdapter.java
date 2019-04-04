@@ -131,6 +131,9 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
 
     @Override
     public void onBindViewHolder(@NonNull ComicRowViewHolder comicRowViewHolder, final int i) {
+        //sort by a-z
+        Collections.sort(filteredComics, Comic.BY_NAME_ALPHABETICAL);
+        //which comic?
         final Comic currentComic = filteredComics.get(i);
         //instellen op viewholder
         comicRowViewHolder.tvName.setText(currentComic.getName());

@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Created By Chiel&Jara 03/2019
@@ -38,6 +39,14 @@ public class Comic implements Serializable {
         this.coordinateLONG = coordinateLONG;
         this.coordinateLAT = coordinateLAT;
     }
+
+    //method to sort by a-z
+    public static final Comparator<Comic> BY_NAME_ALPHABETICAL = new Comparator<Comic>() {
+        @Override
+        public int compare(Comic comic1, Comic comic2) {
+            return comic1.name.compareTo(comic2.name);
+        }
+    };
 
     public long getId() {
         return id;

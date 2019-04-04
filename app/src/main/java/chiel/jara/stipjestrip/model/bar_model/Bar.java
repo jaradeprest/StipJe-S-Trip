@@ -6,6 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Comparator;
+
 /**
  * Created By Chiel&Jara 03/2019
  */
@@ -41,6 +43,14 @@ public class Bar implements Serializable {
         this.website = website;
         this.description = description;
     }
+
+    //method to sort by a-z
+    public static final Comparator<Bar> BY_NAME_ALPHABETICAL = new Comparator<Bar>() {
+        @Override
+        public int compare(Bar o1, Bar o2) {
+            return o1.name.compareTo(o2.name);
+        }
+    };
 
     public long getId() {
         return id;

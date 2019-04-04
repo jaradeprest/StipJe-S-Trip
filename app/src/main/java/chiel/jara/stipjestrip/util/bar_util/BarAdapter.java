@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chiel.jara.stipjestrip.MapActivity;
@@ -69,7 +70,8 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final BarRowViewHolder barRowViewHolder,  int i) {
-         Bar currentBar = filteredBars.get(i);
+        Collections.sort(filteredBars, Bar.BY_NAME_ALPHABETICAL);
+        Bar currentBar = filteredBars.get(i);
         barRowViewHolder.tvName.setText(currentBar.getName());
         barRowViewHolder.tvAdress.setText(currentBar.getStreet()+" "+currentBar.getHouseNumber()+", "+currentBar.getPostalcode()+" "+currentBar.getCity());
         barRowViewHolder.tvPhone.setText(currentBar.getPhone());
@@ -121,3 +123,5 @@ public class BarAdapter extends RecyclerView.Adapter<BarAdapter.BarRowViewHolder
         };
     }
 }
+
+//DOCUMENTATION: how to sort list by a-z: https://www.youtube.com/watch?v=AREhvfVGxlo
