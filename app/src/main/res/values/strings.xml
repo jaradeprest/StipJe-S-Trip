@@ -17,4 +17,14 @@
     <string name="txt_title_rating_alert">Give your rating</string>
     <string name="txt_rating_onten">/ 10</string>
     <string name="txt_btn_menu_myFav">My favorites</string>
+    <string name="content_descr_background">Background about</string>
+    <string name="content_descr_tapImage">Tap Image Detail</string>
+    <string name="content_descr_likeDetail">Like button Detail</string>
+    <string name="content_descr_seenDetail">Seen button Detail</string>
+    <string name="content_descr_mapDetail">Map button Detail</string>
+    <string name="content_descr_loadingImage">Loading image</string>
+    <string name="content_descr_comicImage">Comic Image</string>
+    <string name="content_descr_backgroundButton">Background</string>
+    <string name="content_descr_info">Info button</string>
+    <string name="content_descr_beerLogo">Beer Logo</string>
 </resources>

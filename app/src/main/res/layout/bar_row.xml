@@ -103,6 +103,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/rounded_btn_blue"
+                android:contentDescription="@string/content_descr_mapDetail"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"

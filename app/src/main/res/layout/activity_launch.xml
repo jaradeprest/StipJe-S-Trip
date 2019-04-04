@@ -57,6 +57,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="128dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/content_descr_loadingImage"
         android:src="@drawable/marsupilami"
         app:layout_constraintBottom_toTopOf="@+id/pb_loading"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
