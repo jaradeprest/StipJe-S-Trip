@@ -63,10 +63,17 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
                 Context c = v.getContext();
                 int position = getAdapterPosition();
                 Comic toLike = comics.get(position);
+
                 if (toLike.isFavorite()){
                 toLike.setFavorite(false);
                 btnLiked.setColorFilter(Color.rgb(127, 127, 127));
                     ComicDatabase.getInstance(c).getMethodsComic().updateComic(toLike);
+
+                    int pos = getAdapterPosition();
+                    Comic delComic = filteredComics.get(pos);
+                    filteredComics.remove(delComic);
+                    notifyDataSetChanged();
+
                 }else {
                     toLike.setFavorite(true);
                     btnLiked.setColorFilter(Color.RED);

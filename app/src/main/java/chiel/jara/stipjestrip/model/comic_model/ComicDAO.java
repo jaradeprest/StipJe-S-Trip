@@ -1,6 +1,7 @@
 package chiel.jara.stipjestrip.model.comic_model;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -23,9 +24,15 @@ public interface ComicDAO {
     @Insert
     void addBar(Bar bar);
 
+    @Delete
+    void removeComic(Comic comic);
+
     //Alle data opvragen
     @Query("select * from Comic")
     List<Comic> getAllComics();
+
+    @Query("select * from Comic where isFavorite = 1")
+    List<Comic> getFavComics();
 
     @Query("select * from Bar")
     List<Bar> getAllBars();

@@ -16,4 +16,5 @@
     <string name="txt_rv_rating">Rating :   . / 10</string>
     <string name="txt_title_rating_alert">Give your rating</string>
     <string name="txt_rating_onten">/ 10</string>
+    <string name="txt_btn_menu_myFav">My favorites</string>
 </resources>

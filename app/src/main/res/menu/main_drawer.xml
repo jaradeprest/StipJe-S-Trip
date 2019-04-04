@@ -12,6 +12,7 @@
                 <item
                     android:id="@+id/sw_strip"
                     android:checked="false"
+                    android:icon="@mipmap/ic_launcher_foreground_garfield"
                     android:title="@string/txt_switch_comics"
                     app:actionLayout="@layout/switch_item"
                     app:showAsAction="always" />
@@ -19,6 +20,7 @@
                 <item
                     android:id="@+id/sw_café"
                     android:checked="false"
+                    android:icon="@drawable/beer"
                     android:title="@string/txt_switch_bars"
                     app:actionLayout="@layout/switch_item"
                     app:showAsAction="always" />
@@ -32,10 +34,16 @@
         <menu>
             <item
                 android:id="@+id/btn_strips"
+                android:icon="@mipmap/ic_launcher_foreground_garfield"
                 android:title="@string/txt_btn_menu_comic" />
             <item
                 android:id="@+id/btn_café"
+                android:icon="@drawable/beer"
                 android:title="@string/txt_btn_menu_bar" />
+            <item
+                android:id="@+id/btn_myFav"
+                android:icon="@drawable/like"
+                android:title="@string/txt_btn_menu_myFav" />
         </menu>
     </item>
     <item
@@ -44,6 +52,7 @@
         <menu>
             <item
                 android:id="@+id/btn_about"
+                android:icon="@android:drawable/ic_dialog_info"
                 android:title="@string/txt_title_menu_about" />
         </menu>
     </item>

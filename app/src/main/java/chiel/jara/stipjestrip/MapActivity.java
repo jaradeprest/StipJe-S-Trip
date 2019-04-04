@@ -206,23 +206,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 swiBars.setOnCheckedChangeListener(changeListener);
                 break;
             case R.id.btn_strips:
-                Intent intentC = new Intent(getApplicationContext(), ComicListActivity.class);
-                intentC.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentC);
+                Intent iStrip = new Intent(getApplicationContext(), ComicListActivity.class);
+                iStrip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(iStrip);
                 // close drawer when item is tapped
                 drawerLayout.closeDrawers();
                 break;
             case R.id.btn_café:
-                Intent intentB = new Intent(getApplicationContext(), BarListActivity.class);
-                intentB.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentB);
+                Intent iCafé = new Intent(getApplicationContext(), BarListActivity.class);
+                iCafé.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(iCafé);
+                drawerLayout.closeDrawers();
+                break;
+            case R.id.btn_myFav:
+                Intent iMyFav = new Intent(getApplicationContext(), MyFavComicActivity.class);
+                iMyFav.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(iMyFav);
                 drawerLayout.closeDrawers();
                 break;
             case R.id.btn_about:
-                Intent intentA = new Intent(getApplicationContext(), AboutActivity.class);
-                intentA.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentA);
+                Intent iAbout = new Intent(getApplicationContext(), AboutActivity.class);
+                iAbout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(iAbout);
                 drawerLayout.closeDrawers();
+                break;
         }
         return true;
     }
