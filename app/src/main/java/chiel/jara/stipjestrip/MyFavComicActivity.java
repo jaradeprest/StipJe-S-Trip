@@ -9,7 +9,7 @@ import java.util.List;
 
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
-import chiel.jara.stipjestrip.util.comic_util.ComicAdapter;
+import chiel.jara.stipjestrip.util.comic_util.FavoComicAdapter;
 
 /**
  * Created By Chiel&Jara 03/2019
@@ -18,7 +18,7 @@ import chiel.jara.stipjestrip.util.comic_util.ComicAdapter;
 public class MyFavComicActivity extends AppCompatActivity {
 
     private RecyclerView rvComics;
-    private ComicAdapter myComicAdapter;
+    private FavoComicAdapter myComicAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class MyFavComicActivity extends AppCompatActivity {
 
         //recyclerview instellen:
         List<Comic> myFavComicList = ComicDatabase.getInstance(getApplicationContext()).getMethodsComic().getFavComics();
-        myComicAdapter = new ComicAdapter(myFavComicList);
+        myComicAdapter = new FavoComicAdapter(myFavComicList);
         rvComics.setAdapter(myComicAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvComics.setLayoutManager(linearLayoutManager);

@@ -27,11 +27,7 @@ import chiel.jara.stipjestrip.R;
 import chiel.jara.stipjestrip.model.comic_model.Comic;
 import chiel.jara.stipjestrip.model.comic_model.ComicDatabase;
 
-/**
- * Created By Chiel&Jara 03/2019
- */
-
-public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowViewHolder> {
+public class FavoComicAdapter extends RecyclerView.Adapter<FavoComicAdapter.ComicRowViewHolder>{
 
     public class ComicRowViewHolder extends RecyclerView.ViewHolder{
         private TextView tvName, tvAuthor;
@@ -67,13 +63,13 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
                 Comic toLike = comics.get(position);
 
                 if (toLike.isFavorite()){
-                toLike.setFavorite(false);
-                btnLiked.setColorFilter(Color.rgb(127, 127, 127));
+                    toLike.setFavorite(false);
+                    btnLiked.setColorFilter(Color.rgb(127, 127, 127));
                     ComicDatabase.getInstance(c).getMethodsComic().updateComic(toLike);
                     int pos = getAdapterPosition();
-                    Comic delComic = filteredComics.get(pos);
+                    Comic delComic = comics.get(pos);
                     delComic.setFavorite(false);
-                    //filteredComics.remove(delComic);
+                    comics.remove(delComic);
                     notifyDataSetChanged();
                 }else {
                     toLike.setFavorite(true);
@@ -122,26 +118,25 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         }
     }
 
-    private List<Comic> comics, filteredComics;
-    public ComicAdapter(List<Comic> comics){
+    private List<Comic> comics;
+    public FavoComicAdapter(List<Comic> comics){
         this.comics = comics;
-        this.filteredComics = comics;
     }
 
     @NonNull
     @Override
-    public ComicRowViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public FavoComicAdapter.ComicRowViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View row = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comic_row, viewGroup, false);
-        ComicRowViewHolder comicRowViewHolder = new ComicRowViewHolder(row);
+        FavoComicAdapter.ComicRowViewHolder comicRowViewHolder = new FavoComicAdapter.ComicRowViewHolder(row);
         return comicRowViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ComicRowViewHolder comicRowViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull FavoComicAdapter.ComicRowViewHolder comicRowViewHolder, final int i) {
         //sort by a-z
-        Collections.sort(filteredComics, Comic.BY_NAME_ALPHABETICAL);
+        Collections.sort(comics, Comic.BY_NAME_ALPHABETICAL);
         //which comic?
-        final Comic currentComic = filteredComics.get(i);
+        final Comic currentComic = comics.get(i);
         //instellen op viewholder
         comicRowViewHolder.tvName.setText(currentComic.getName());
         comicRowViewHolder.tvAuthor.setText(currentComic.getAuthor());
@@ -154,45 +149,14 @@ public class ComicAdapter extends RecyclerView.Adapter<ComicAdapter.ComicRowView
         }
         if (currentComic.isFavorite()){
             comicRowViewHolder.btnLiked.setColorFilter(Color.RED);
-            }else {comicRowViewHolder.btnLiked.setColorFilter(Color.rgb(127, 127, 127));}
+        }else {comicRowViewHolder.btnLiked.setColorFilter(Color.rgb(127, 127, 127));}
         if (currentComic.isVisited()){
-                comicRowViewHolder.btnVisited.setColorFilter(Color.WHITE);
-            }else {comicRowViewHolder.btnVisited.setColorFilter(Color.rgb(127, 127, 127));}
-
+            comicRowViewHolder.btnVisited.setColorFilter(Color.WHITE);
+        }else {comicRowViewHolder.btnVisited.setColorFilter(Color.rgb(127, 127, 127));}
     }
 
     @Override
     public int getItemCount() {
-        return filteredComics.size();
-    }
-
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String filterComic = (constraint.toString()).toLowerCase();
-
-                if (filterComic.isEmpty()) {
-                    filteredComics = comics;
-                } else {
-                    ArrayList<Comic> tempList = new ArrayList<>();
-                    for (Comic comic : comics) {
-                        if (comic.getName().toLowerCase().contains(filterComic)) {
-                            tempList.add(comic);
-                        }
-                    }
-                    filteredComics = tempList;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filteredComics;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredComics = (ArrayList<Comic>) results.values;
-                notifyDataSetChanged();
-            }
-        };
+        return comics.size();
     }
 }
